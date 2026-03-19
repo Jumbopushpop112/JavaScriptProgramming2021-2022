@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Midterm</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body onload="init()">
+        <h1>Area of Shapes Calculator</h1>
+        <form id="frmShapes" name="frmShapes">
+            <select id="shapes" name="shapes" onchange="getShape(this)"> <!--   -->
+                <option value="Choose a shape" class="shape">Choose a shape</option>
+                <option value="triangle" class="shape">Triangle</option>
+                <option value="circle" class="shape">Circle</option>
+                <option value="rectangle" class="shape">Rectangle</option>
+                <option value="square" class="shape">Square</option>
+            </select>
+            
+            &nbsp; &nbsp; 
+            <label for="metric">metric units</label>
+            <input type="radio" value="metric" id="metric" name="units" class="units">
+            &nbsp; &nbsp;
+            <label for="feet">imperial units</label>
+            <input type="radio" value="feet" id="feet" name="units" class="units">                
+        </form>
+        <p id="display">hi</p>
+    </body>
+    <script>
+        var myForm = document.frmShapes;
+        function init(){
+            refreshPage();
+            //document.getElementById("shapes").addEventListener("change", getShape);  
+        }
+        //get the shape
+        function getShape(event){
+            var selectedShape = event.options[event.selectedIndex].text; 
+            if(selectedShape === "Triangle"){
+                showTriangleInputs();
+            }
+            if(selectedShape === "Circle"){
+                showCircleInputs();
+            }
+            if(selectedShape === "Rectangle"){
+                showRectangleInputs();
+            }
+            if(selectedShape === "Square"){
+                showSquareInputs();
+            }
+        }
+        //show inputs of triangle and do the math
+        function showTriangleInputs(){
+            var basePrompt = prompt("Enter the base of your triangle");
+            basePrompt = parseInt(basePrompt);
+            if(isNaN(basePrompt)){
+                alert("Invalid base. Enter again");
+                basePrompt = parseInt(prompt("Enter the base of your triangle"));
+            }
+            var heightPrompt = prompt("Enter the height of your triangle");
+            heightPrompt = parseInt(heightPrompt);
+            if(isNaN(heightPrompt)){  
+                alert("Invalid height. Enter again.");
+                heightPrompt = parseInt(prompt("Enter the height of your triangle"));
+            }
+            var triangleArea = 0.5 * (basePrompt) * (heightPrompt);
+            document.getElementById("display").innerHTML = "Triangle with a base of " + basePrompt + " and a height of " + heightPrompt + " has an area of " + triangleArea.toFixed(2);
+        }  
+        //show inputs of circle and do the math
+        function showCircleInputs(){
+            var radiusPrompt = prompt("Enter the radius of your circle");
+            radiusPrompt = parseInt(radiusPrompt);
+            if(isNaN(radiusPrompt)){
+                alert("Invalid radius. Enter again");
+                radiusPrompt = parseInt(prompt("Enter the radius of your circle"));
+            }
+            var circleArea = Math.PI * (Math.pow(radiusPrompt, 2));
+            document.getElementById("display").innerHTML = "Circle with a radius of " + radiusPrompt + " has an area of " + circleArea.toFixed(2);
+        }
+        //show inputs of rectangle and do the math
+        function showRectangleInputs(){
+            var lengthPrompt = prompt("Enter the length of your rectangle");
+            lengthPrompt = parseInt(lengthPrompt);
+            if(isNaN(lengthPrompt)){
+                alert("Invalid length. Enter again");
+                lengthPrompt = parseInt(prompt("Enter the length of your rectangle"));
+            }
+            var widthPrompt = prompt("Enter the width of your rectangle");
+            widthPrompt = parseInt(widthPrompt);
+            if(isNaN(widthPrompt)){
+                alert("Invalid width. Enter again.");
+                widthPrompt = parseInt(prompt("Enter the width of your rectangle"));
+            }
+            var rectangleArea = lengthPrompt * widthPrompt;
+            document.getElementById("display").innerHTML = "Rectangle with a length of " + lengthPrompt + " and a width of " + widthPrompt + " has an area of " + rectangleArea;
+        }
+        //show inputs of square and do the math
+        function showSquareInputs(){
+            var lengthPrompt = prompt("Enter the length of your square");
+            lengthPrompt = parseInt(lengthPrompt);
+            if(isNaN(lengthPrompt)){
+                alert("Invalid length. Enter again");
+                lengthPrompt = parseInt(prompt("Enter the length of your square"));
+            }
+            var widthPrompt = prompt("Enter the width of your square");
+            widthPrompt = parseInt(widthPrompt);
+            if(isNaN(widthPrompt)){
+                alert("Invalid width. Enter again.");
+                widthPrompt = parseInt(prompt("Enter the width of your square"));
+            }
+            var squareArea = lengthPrompt * widthPrompt;
+            document.getElementById("display").innerHTML = "Square with a length of " + lengthPrompt + " and a width of " + widthPrompt + " has an area of " + squareArea;
+        }
+        //refresh the page
+        function refreshPage(){ 
+            var numberOfItems = myForm.length;
+             for (var index = 0; index < numberOfItems; index++){
+                    var element = myForm[index];
+                    if (element.type === "radio"){
+                       if(element.checked){ 
+                           element.checked = false;
+                       }
+                    }
+             }   
+            document.getElementById("shapes").value = "Choose a shape";
+            document.getElementById("display").innerHTML = "";  
+        }
+    </script>
+</html>

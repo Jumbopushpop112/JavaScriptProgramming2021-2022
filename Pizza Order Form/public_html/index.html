@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Pizza Order form</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body onload="init()">
+        <form name="pizzaForm">
+            <label for="customerName">Customer's Name</label>
+            <input type="text" name="txtCustomerName" id="customerName"> 
+            
+            <p> 
+                Pizza Size:
+                <input type="radio" value="Small" name="pizza">
+                <label>Small $8</label>
+                <input type="radio" value="Medium" name="pizza">
+                <label>Medium $10</label>
+                <input type="radio" value="Large" name="pizza">
+                <label>Large $12</label>
+            </p>
+            
+            <p>
+            <label for="typeCrust">Crust Type:</label>
+            <select id="crustType">
+                <option>Thin</option>
+                <option>Thick</option>
+                <option>Deep Dish</option>
+            </select>
+            </p>
+            
+            <p>
+            <label for="toppingType">Toppings:</label>
+            <select multiple size="7" name="toppings"> 
+                <option>Pepperoni</option>
+                <option>Sausage</option>
+                <option>Green Peppers</option>
+                <option>Onions</option>
+                <option>Tomatoes</option>
+                <option>Anchovies</option>
+                <option>Bacon</option>
+                <option>Chicken</option>  
+            </select>
+            </p>
+            <p>
+            <label for="extras">Extras:</label>
+            
+            <input type="checkbox" id="BreadSticks" name="breadSticks" value="Bread Sticks">
+            <label for="breadSticks">Bread Sticks $5</label>
+            
+            <input type="checkbox" id="SaladOption" name="saladOption" value="Salad">
+            <label for="salad">Salad $8</label>
+            
+            <input type="checkbox" id="sodaOption" name="sodaOption" value="Soda">
+            <label for="soda">Soda $3</label>
+
+            </p>
+            <label for="comments">Order Comments:</label>
+            <textarea id="orderComments" name="orderComments" rows="8" cols="50">
+           
+            </textarea><br><br>
+            
+            <button type="button" id="orderButton">Place Order</button>
+            <button type="button" id="resetButton">Reset Order</button>
+        </form>
+        <script>
+            var myForm = document.pizzaForm;
+            function init(){
+                document.getElementById("orderButton").addEventListener("click", summarizeOrder);
+                document.getElementById("resetButton").addEventListener("click", resetValues);
+            }
+            //get the toppings
+            function getToppings(){
+                var toppings = myForm.toppings;
+                var arrToppings = [];
+                for (const index of toppings){
+                   if (index.selected){ 
+                       arrToppings.push(index.value); 
+                   } 
+                }
+               return arrToppings;
+            }
+            //get the customers name
+            function getCustomersName(){
+                var customerName = document.getElementById("customerName").value; 
+                return customerName;
+            }
+            //get the crust type
+            function getCrustType(){
+                var crustSelectTag = document.getElementById("crustType");
+                var selectedCrustType = crustSelectTag.options[crustSelectTag.selectedIndex].text;
+                return selectedCrustType;
+            }
+            //get the crust size 
+            function getCrustSize(){
+               var crustType = myForm.pizza;
+               for (var index = 0; index < crustType.length; index++){
+                   if (crustType[index].checked){
+                       return crustType[index].value;
+                   } 
+                }
+                return  "";
+            }
+            //sumarize the order
+            function summarizeOrder(){
+                var numberOfItems = myForm.length;
+                var customerName = getCustomersName();
+                var orderSummary = "Your order with the following items:" + "\n" + "Customer Name: " + getCustomersName() + "\n" + "Crust Size: " + getCrustSize() + "\n" + "Crust Type: " + getCrustType() + "\n"  + "Toppings are free and you chose: " + getToppings().join(", ") + "\n" + "Extra items chosen are:" + "\n";
+                var orderCost = 0;
+                for (var index = 0; index < numberOfItems; index++){
+                    var element = myForm[index];
+                    if (element.type === "checkbox"){
+                        if(element.value === "Bread Sticks"){ 
+                            if(element.checked === true){
+                                orderCost += 5;
+                            }
+                        }
+                        if(element.value === "Salad"){
+                            if(element.checked === true){
+                                orderCost += 8;
+                            }   
+                        }
+                        if(element.value === "Soda"){
+                            if(element.checked === true){ 
+                                orderCost += 3;
+                            }   
+                        }
+                    }
+                    if(element.type === "radio"){
+                        if(element.value === "Small"){
+                            if(element.checked === true){   
+                                orderCost += 8;
+                            }
+                        }
+                        if(element.value === "Medium"){
+                            if(element.checked === true){
+                               orderCost += 10;
+                            }
+                        }
+                        if(element.value === "Large"){
+                            if(element.checked === true){
+                               orderCost += 12;  
+                            }
+                        }
+                    }
+                    if (element.checked){
+                        if(element.type !== "radio") 
+                            orderSummary = orderSummary + element.value + "\n"; 
+                    }
+                }
+                var tax = orderCost * 0.07;
+                var orderTotal = orderCost + tax ;
+                var comments = document.getElementById("orderComments").value;
+                alert(orderSummary + "Order comments are: " + comments +  "\n" + "Cost without tax is: $" + parseInt(orderCost) +  "\n" + "Tax is: $" + tax.toFixed(2) + "\n" + "Total Cost of your order is: $" + orderTotal);       
+            } 
+            //reset the values and loop through all of them and set them to either deselected or dechecked
+           function resetValues(){
+                var numberOfItems = myForm.length;
+                 var toppings = myForm.toppings;
+                for (var index = 0; index < numberOfItems; index++){
+                    var element = myForm[index];
+                    if (element.type === "checkbox"){
+                       if(element.checked){
+                           element.checked = false;
+                       }
+                    }
+                    if (element.type === "radio"){
+                       if(element.checked){
+                          element.checked = false;
+                       } 
+                    }
+                    for (const index of toppings){
+                        if (index.selected){ 
+                            index.selected = false;   
+                   } 
+                  }
+                }     
+                document.getElementById("orderComments").value = "";
+                document.getElementById("customerName").value = ""; 
+                document.getElementById("crustType").value = "Thin"; 
+            }
+        </script> 
+    </body>
+</html>

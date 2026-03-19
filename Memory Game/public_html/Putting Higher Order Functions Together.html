@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            img{
+                height: 5%;
+                width: 5%;
+            }
+        </style>
+    </head>
+    
+    <html>
+        <div id="createdDeck">
+            <h1>Deck Created</h1>
+        </div>
+        <div id="shuffledDeck">
+            <h1>Deck Created Shuffled</h1>
+        </div>
+        <div id="clubCards">
+            <h1>Club Cards</h1>
+        </div>
+        <div id="oddCards">
+            <h1>Odd Cards</h1>
+        </div>
+        <div id="heartEvenCards">
+            <h1>Heart Even Cards</h1>
+        </div>
+        <div id="playersCards">
+            
+        </div>
+        <div id="remainingCards">
+            <h1>Remaining Cards</h1>
+        </div>
+        <div id="faceCards">
+            <h1>Face Cards</h1>
+        </div>
+    </html>
+    <body>
+        <script>
+            //create an array of object cards in j
+            var arrSuits = ["Diamonds","Spades","Clubs","Hearts"];
+            var arrCardNums = ["A","2","3","4","5","6","7","8","9","10","K","Q","J"];
+            var N = 52;   
+            var deck = Array.from({length: N}, (_, index) => index);
+            //create an array of object cards in j
+            var arrSuits = ["Diamonds","Spades","Clubs","Hearts"];
+            var arrCardNums = ["A","2","3","4","5","6","7","8","9","10","K","Q","J"];          
+            var deck = deck.map(createCardObject); 
+            function createCardObject(card){
+                 var value = arrCardNums[card % 13];
+                 var suit = arrSuits[Math.floor(card/13)];
+                 var cardObj = {Suit: suit, Value: value};
+                 return cardObj;                
+            }
+            var playerDeck = [...deck];
+            var copiedDeck = [...deck];
+            var faceDeck = [...deck];
+            createCardImages(copiedDeck, "createdDeck");           
+            var arrShuffledCards = [... deck]; 
+            console.log("Deck Created"); 
+            console.log(copiedDeck);       
+            console.log("Deck Shuffled");
+            shuffleCards(arrShuffledCards);
+            
+           //shuffling the array of cards
+            function shuffleCards(arrShuffledCards){ 
+                 for (let i = arrShuffledCards.length-1; i > 0; i--)
+                 {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    const temp = arrShuffledCards[i];
+                    arrShuffledCards[i] = arrShuffledCards[j];
+                    arrShuffledCards[j] = temp;
+                 }
+                 createCardImages(arrShuffledCards, "shuffledDeck"); 
+                 console.log(arrShuffledCards);  
+            }           
+            //filter out the clubs
+            var arrClubs = deck.filter(card => card.Suit === "Clubs");    
+            console.log("Club Cards"); 
+            console.log(arrClubs);
+            createCardImages(arrClubs, "clubCards");  
+            //filter out odd valued cards
+            var arrOddCards = deck.filter(filterOdds);
+            function filterOdds(card){
+                if(card.Value === "J" || card.Value === "A" || card.Value === "K"){
+                    return card;
+                }
+                else if(card.Value % 2 === 1){ 
+                    return card;
+                }
+            }
+            console.log("Odd Cards");
+            console.log(arrOddCards);
+            createCardImages(arrOddCards, "oddCards");
+            //filter out even suits of hearts
+            var heartEvenArray = deck.filter(filterEvenHearts);
+            function filterEvenHearts(card){
+                if(card.Suit === "Hearts" && card.Value % 2 === 0 || card.Suit === "Hearts" && card.Value === "Q"){ 
+                    return card;  
+                }
+            }
+            console.log("Even Heart Cards");
+            console.log(heartEvenArray);
+            createCardImages(heartEvenArray, "heartEvenCards");
+            //deal 5 cards to found people
+            for(var i = 1; i<5; i++){
+                var headerOne = document.createElement("H1");
+                headerOne.innerHTML = "Player " + i + "'s hand";
+                document.getElementById("playersCards").append(headerOne);
+                console.log("Player " + i + "'s hand");
+                var div = document.createElement("div");
+                div.id = i;
+                document.getElementById("playersCards").append(div);
+                for(var j = 1; j<6; j++){                   
+                    let randomCard = playerDeck[Math.floor(Math.random() * playerDeck.length)];
+                    playerDeck.splice(randomCard, 1); 
+                    console.log(playerDeck); 
+                    var cardImage = document.createElement("IMG");
+                    cardImage.src = "Images/" + randomCard.Value + randomCard.Suit.substring(0,1) + ".png";
+                    document.getElementById(i).append(cardImage);
+                         
+                }
+                                
+            }
+            console.log("Cards remaining in deck");
+            console.log(playerDeck);  
+            //filter just the picture cards  
+            //filter face cards
+            var arrFaceCards = faceDeck.filter(filterFaceCards);        
+            function filterFaceCards(card){
+                if(card.Value === "J" || card.Value === "K" || card.Value === "Q" || card.Value === "A"){
+                    return card;     
+                }
+            } 
+            console.log("Face cards sorted by suit");
+            console.log(arrFaceCards);
+            createCardImages(arrFaceCards, "faceCards");
+            function createCardImages(arr, id){
+                for(var i = 0; i<arr.length; i++){
+                    var cardImage = document.createElement("IMG");
+                    cardImage.src = "Images/" + arr[i].Value + arr[i].Suit.substring(0,1) + ".png";
+                    document.getElementById(id).appendChild(cardImage);
+                }
+            }
+        </script>
+    </body>
+</html>

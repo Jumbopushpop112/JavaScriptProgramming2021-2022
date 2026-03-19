@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .card{
+                width: 35%;
+            }
+            #cards{
+                display: grid;
+                grid-template-columns:25% 25% 25% 25%; 
+                row-gap: 25px;
+            }
+        </style>
+    </head>
+    <body onload="init()">
+        <section id="cards">
+        </section>
+        <script>
+           
+            var arrCards = [];
+            var gameWinner = 0;
+            var arrShowedCards = [];
+            //appendElements();
+            function init(){
+                createCards();
+                shuffleCards();   
+                appendElements();
+            }
+            function createCards(){
+                var arrCardNames = ["AD","2D","3D","4D","5D","6D","7D","8D","9D","10D","JD","KD","QD", // diamond cards
+                  "AC","2C","3C","4C","5C","6C","7C","8C","9C","10C","JC","KC","QC", // club cards
+                  "AH","2H","3H","4H","5H","6H","7H","8H","9H","10H","JH","KH","QH", // heart cards
+                  "AS","2S","3S","4S","5S","6S","7S","8S","9S","10S","JS","KS","QS" // spade cards
+                ]; 
+                for(var i = 0; i<6; i++){
+                    for(var j = 0; j<1; j++){
+                        //first card  
+                        var randomCardChoice = arrCardNames[Math.floor(Math.random() * arrCardNames.length)];
+                        var card1 = document.createElement("IMG"); 
+                        card1.src = "Images/red_back.png";
+                        card1.className = "card";
+                        card1.frontSrc = "Images/" + randomCardChoice + ".png";
+                        card1.id = "card" + j; 
+                        card1.addEventListener("click", showCard);
+                        //second card
+                        var card2 = document.createElement("IMG"); 
+                        card2.src = "Images/red_back.png";
+                        card2.className = "card";
+                        card2.frontSrc = "Images/" + randomCardChoice + ".png";
+                        card2.id = "card" + j; 
+                        card2.addEventListener("click", showCard);
+                        document.getElementById("cards").append(card1,card2);
+                        arrCards.push(card1,card2);
+                    }   
+                }
+                
+            }
+            //shuffle the cards in the array
+            function shuffleCards(){
+                 for (let i = arrCards.length-1; i > 0; i--)
+                 {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    const temp = arrCards[i];
+                    arrCards[i] = arrCards[j];
+                    arrCards[j] = temp;
+                 } 
+                 return arrCards;
+               
+            }
+            //add elements to the array
+            function appendElements(){
+                for(var i = 0; i<arrCards.length; i++){
+                    document.getElementById("cards").appendChild(arrCards[i]);
+                }  
+            }
+            //show the cards and check for matches
+            function showCard() {
+                var sourceString = "Images/red_back.png";
+                this.src = this.frontSrc;               
+                arrShowedCards.push(this);
+                if (arrShowedCards.length === 2) {
+                    var a = arrShowedCards[0], b = arrShowedCards[1];
+                    arrShowedCards.length = 0;
+                if (a.frontSrc === b.frontSrc) {  
+                        console.log("Match!"); 
+                        gameWinner++;
+                } else {
+                    console.log("No match!");
+                    setTimeout(function () {
+                        a.src = sourceString; 
+                        b.src = sourceString; 
+                    }, 300); 
+                 }
+               }
+               //display game winning message. game winner increases each time you get a match.
+               if(gameWinner === 6){   
+                   alert("You matched all the cards: you win!");   
+               }
+            }
+        </script>
+    </body>
+</html>

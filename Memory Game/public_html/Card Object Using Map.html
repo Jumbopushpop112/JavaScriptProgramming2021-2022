@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <script>
+            var N = 52;
+            var arrCards = Array.from({length: N}, (_, index) => index);
+            //create an array of object cards in j
+            var arrSuits = ["Diamonds","Spades","Clubs","Hearts"];
+            var arrCardNums = ["A","2","3","4","5","6","7","8","9","10","K","Q","J"];          
+            var deck = arrCards.map(createCardObject);
+            function createCardObject(card){
+                 var value = arrCardNums[card % 13];
+                 var suit = arrSuits[Math.floor(card/13)];   
+                 var cardObj = {suit: suit, value: value};
+                 return cardObj;
+            }
+            console.log(deck);
+        </script>
+    </body>
+</html>

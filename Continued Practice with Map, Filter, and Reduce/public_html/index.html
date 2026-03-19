@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <script>
+            //main array used
+             var wholes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+             //filtering exercises
+             //output the even numbers
+             var evenArray = wholes.filter(findEvens);  
+             function findEvens(num){
+                 if(num%2===0 && num !== 0){
+                     return num;
+                 }
+             }
+             console.log(evenArray);
+             //return numbers greater than 4
+             var greater4Array = wholes.filter(greater4);
+             function greater4(num){
+                 return num > 4;
+             }
+             console.log(greater4Array);     
+             //filter and output the prime numbers
+             var primeArray = wholes.filter(findPrimes);
+             function findPrimes(num){
+                 if(num <= 1){
+                     return null;
+                 }
+                 if(num === 2){
+                     return num; 
+                 }else{
+                     for(var i = 2; i<num; i++){
+                         if(num % i === 0){
+                             return null;
+                         }
+                     }
+                     return true;
+                 }
+             }
+             console.log(primeArray);
+             //map exercises
+             //half an array
+             var halvedArray = wholes.map(returnHalved);
+             halvedArray = halvedArray.slice(1,wholes.length);
+             function returnHalved(num){
+                 return num /2;               
+             }
+             console.log(halvedArray);
+             //fizzbuzz array
+             var fizzBuzzArray = wholes.map(fizzBuzzArray);
+             function fizzBuzzArray(num){
+                 if(num % 3 === 0 && num % 5 === 0){
+                     return "fizzbuzz";
+                 }
+                 else if(num % 5 === 0){
+                     return "buzz";
+                 }
+                 else if(num % 3 === 0){
+                    return "fizz";
+                 }else{
+                     return num;
+                 }
+             }
+             console.log(fizzBuzzArray);
+             //reduce exercise
+             var largestNum = wholes.reduce(findLargestNum);
+             function findLargestNum(preValue, curValue, highestValue){
+                 if(curValue > preValue){
+                     highestValue = curValue;    
+                 }
+                 return highestValue;  
+             } 
+             console.log(largestNum); 
+        </script>
+    </body>
+</html>

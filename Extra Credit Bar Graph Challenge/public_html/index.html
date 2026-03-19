@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<!DOCTYPE HTML>
+<html>
+<head>
+      <title>Extra Credit Challenge</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            #entryArea{
+                border: 1px solid black;
+                width: 30%;
+                border-radius: 100px;
+                text-align: center;
+                margin: auto;
+            }
+            #myCanvas{
+                border-radius: 25px;
+                border: 1px;
+            }
+            #submitButton{
+                border-radius: 15px;
+                background-color:lightblue;
+                font-size: 25px;
+                width: 30%;
+            }
+            input{
+                font-size: 25px; 
+            }
+            #resetButton{
+                border-radius: 15px;
+                background-color:lightblue;  
+                font-size: 25px;
+                width: 30%;   
+            }
+        </style>
+</head>
+<body onload="init()">
+    <canvas id="myCanvas" width="500" height="450" style="border:1px solid #000000;"></canvas>
+
+    <div id="entryArea"> 
+            <p style="font-size: 20px">What is your favorite programming language?</p>
+            <p><input name="language" type="radio" value="Web Design">Web Design</p> 
+            <p><input name="language" type="radio" value="Java">Java</p>
+            <p><input name="language" type="radio" value="Python">Python</p>
+            <p><input name="language" type="radio" value="Other">Other</p>
+            <button id="submitButton">Submit</button><br><br>
+            <button id="resetButton">Reset</button>
+    </div>
+    
+    <script> 
+         function init(){ 
+                unCheckItems();
+                drawAxes();
+                walkThroughStorage();  
+                document.getElementById("submitButton").addEventListener("click", setItemToStorage);
+                document.getElementById("resetButton").addEventListener("click", clearCanvas); 
+            }
+            function walkThroughStorage(){
+                var ele = document.getElementById("entryArea").querySelectorAll("input");
+                var curTextStorage = localStorage.getItem("ClickedBoxes");
+                var c = document.getElementById("myCanvas");
+                var ctx = c.getContext("2d");
+                ctx.font = "15px Arial";
+                ctx.beginPath();
+                curTextStorage = JSON.parse(curTextStorage);
+                if(curTextStorage !== null){    
+                    for(let i = 0; i<ele.length; i++){
+                        let height = (curTextStorage[ele[i].value] || 0) * 40;  
+                        if(ele[i].value === "Web Design"){
+                            if(curTextStorage[ele[i].value] > 1){ 
+                                ctx.rect(80, 350-height, 30, height);
+                                ctx.fillText(curTextStorage[ele[i].value], 90, 340-height);
+                                ctx.lineWidth = 1;
+                                ctx.stroke(); 
+                            } 
+                            if(curTextStorage[ele[i].value] === 1){
+                                ctx.rect(80, 310, 30, 40);
+                                ctx.fillText(curTextStorage[ele[i].value], 90, 340-height);
+                                ctx.lineWidth = 1;
+                                ctx.stroke();  
+                            }
+                        }
+                        else if(ele[i].value === "Java"){
+                            if(curTextStorage[ele[i].value] > 1){
+                                ctx.rect(180, 350-height, 30, height);
+                                ctx.fillText(curTextStorage[ele[i].value], 190, 340-height);
+                                ctx.lineWidth = 1;
+                                ctx.stroke();
+                            }
+                            if(curTextStorage[ele[i].value] === 1){
+                                ctx.rect(180, 310, 30, 40);
+                                ctx.fillText(curTextStorage[ele[i].value], 190, 340-height);
+                                ctx.lineWidth = 1;  
+                                ctx.stroke();  
+                            }    
+                        }
+                        else if(ele[i].value === "Python"){
+                            if(curTextStorage[ele[i].value] > 1){
+                               ctx.rect(255, 350-height, 30, height);
+                               ctx.fillText(curTextStorage[ele[i].value], 265, 340-height);
+                               ctx.lineWidth = 1;
+                               ctx.stroke();  
+                            }
+                            if(curTextStorage[ele[i].value] === 1){
+                               ctx.rect(255, 310, 30, 40);
+                               ctx.fillText(curTextStorage[ele[i].value], 265, 340-height);
+                               ctx.lineWidth = 1; 
+                               ctx.stroke(); 
+                            }      
+                        }
+                        else{
+                            if(curTextStorage[ele[i].value] > 1){  
+                               ctx.rect(335, 350-height, 30, height);
+                               ctx.fillText(curTextStorage[ele[i].value], 345, 340-height);
+                               ctx.lineWidth = 1;
+                               ctx.stroke();    
+                            }
+                            if(curTextStorage[ele[i].value] === 1){
+                              ctx.rect(335, 310, 30, 40);
+                              ctx.fillText(curTextStorage[ele[i].value], 345, 340-height);
+                              ctx.lineWidth = 1;
+                              ctx.stroke();   
+                            }                           
+                        }
+                    }           
+               }
+               ctx.closePath();
+            }
+            function drawAxes(){
+                var c = document.getElementById("myCanvas");
+                var ctx = c.getContext("2d");
+                ctx.beginPath();
+                //draw x axis
+                ctx.moveTo(20,350); 
+                ctx.lineTo(500,350);
+                ctx.lineWidth = 4;
+                ctx.stroke();
+                ctx.closePath();
+                //draw y axis
+                ctx.beginPath();
+                ctx.moveTo(40,400);
+                ctx.lineTo(40,0);  
+                ctx.stroke();
+                ctx.closePath();
+                //draw names at the bottom
+                ctx.font = "15px Arial";
+                ctx.fillText("Web Design", 60,370);
+                ctx.fillText("Java", 180,370);
+                ctx.fillText("Python", 250,370);
+                ctx.fillText("Other", 330,370);
+            }
+            function unCheckItems(){ 
+                var ele = document.getElementById("entryArea").querySelectorAll("input");
+                for(let i = 0; i < ele.length; i++) {
+                    if(ele[i].checked){
+                        ele[i].checked = false;
+                    } 
+                }
+            }
+            function setItemToStorage(){
+                var savedClicks = localStorage.getItem("ClickedBoxes");
+                let clickDict = JSON.parse(savedClicks) || {};
+                var ele = document.getElementById("entryArea").querySelectorAll("input");
+                for(let i = 0; i < ele.length; i++){
+                    if(ele[i].checked){                  
+                        if(!clickDict[ele[i].value]){     
+                            clickDict[ele[i].value]=1;
+                        }   
+                        else//the key of 1,2,3,4 or 5 (contents of curRandNum) exist in theDict so add one to its value 
+                        {
+                            clickDict[ele[i].value] += 1;    
+                        }   
+                    }
+                    localStorage.setItem("ClickedBoxes",JSON.stringify(clickDict));
+               }
+               drawBars(); 
+            }
+            function drawBars(){ 
+               var savedClicks = localStorage.getItem("ClickedBoxes");     
+               savedClicks = JSON.parse(savedClicks);
+               var c = document.getElementById("myCanvas");
+               var ctx = c.getContext("2d");
+               ctx.beginPath(); 
+               var ele = document.getElementById("entryArea").querySelectorAll("input");
+               ctx.font = "15px Arial";
+                for(let i = 0; i < ele.length; i++) {
+                    let height = (savedClicks[ele[i].value] || 0) * 40;
+                    if(ele[i].checked){
+                        if(ele[i].value === "Web Design"){
+                            if(savedClicks[ele[i].value] > 1){
+                                clearBar();
+                                //ctx.clearRect(80, 300, 30, 40);   
+                                ctx.rect(80, 350-height, 30, height);
+                                ctx.fillText(savedClicks[ele[i].value], 90, 340-height);
+                                ctx.lineWidth = 0;
+                                ctx.stroke();
+                            }  
+                            if(savedClicks[ele[i].value] === 1){
+                                ctx.fillText(savedClicks[ele[i].value], 90, 340-height);
+                                ctx.rect(80, 310, 30, 40);
+                                ctx.lineWidth = 1;
+                                ctx.stroke(); 
+                            }
+                        }
+                        else if(ele[i].value === "Java"){
+                            if(savedClicks[ele[i].value] > 1){
+                                clearBar();
+                                ctx.rect(180, 350-height, 30, height);
+                                ctx.fillText(savedClicks[ele[i].value], 190, 340-height);
+                                ctx.lineWidth = 0;
+                                ctx.stroke();
+                            }
+                            if(savedClicks[ele[i].value] === 1){
+                                ctx.fillText(savedClicks[ele[i].value], 190, 340-height);
+                                ctx.rect(180, 310, 30, 40);
+                                ctx.lineWidth = 1;
+                                ctx.stroke();  
+                            }    
+                        }
+                        else if(ele[i].value === "Python"){
+                            if(savedClicks[ele[i].value] > 1){
+                                clearBar();
+                                ctx.rect(255, 350-height, 30, height);
+                                ctx.fillText(savedClicks[ele[i].value], 265, 340-height);
+                                ctx.lineWidth = 0;
+                                ctx.stroke(); 
+                            }
+                            if(savedClicks[ele[i].value] === 1){
+                               ctx.rect(255, 310, 30, 40);
+                               ctx.fillText(savedClicks[ele[i].value], 265, 340-height);
+                               ctx.lineWidth = 1;
+                               ctx.stroke(); 
+                            }      
+                        }
+                        else{
+                            if(savedClicks[ele[i].value] > 1){
+                                clearBar();
+                                ctx.rect(335, 350-height, 30, height);
+                                ctx.fillText(savedClicks[ele[i].value], 345, 340-height);
+                                ctx.lineWidth = 0;
+                                ctx.stroke();
+                            }                    
+                            if(savedClicks[ele[i].value] === 1){
+                              ctx.rect(335, 310, 30, 40);
+                              ctx.fillText(savedClicks[ele[i].value], 345, 340-height);
+                              ctx.lineWidth = 1;
+                              ctx.stroke(); 
+                            }                           
+                        }
+                    }
+                }
+                ctx.closePath();
+            }    
+            function clearBar(){
+                var c = document.getElementById("myCanvas");
+                var ctx = c.getContext("2d"); 
+                ctx.clearRect(0, 0, c.width, c.height);
+                init();
+            }
+            function clearCanvas(){
+                var c = document.getElementById("myCanvas");
+                var ctx = c.getContext("2d"); 
+                ctx.clearRect(0, 0, c.width, c.height);
+                localStorage.clear(); 
+                init();    
+            }
+    </script>  
+</body>
+</html>

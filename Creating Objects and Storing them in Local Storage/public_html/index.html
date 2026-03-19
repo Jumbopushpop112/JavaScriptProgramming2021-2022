@@ -1,0 +1,88 @@
+<html>
+
+<head>
+    <title>Using Array of Objects with Local Storage</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        table {
+            margin: 20px;
+            border: 3px solid blue;
+            border-collapse: collapse;
+        }
+        
+        caption {
+            font-weight: bolder;
+        }
+        
+        th,
+        td {
+            border-style: solid;
+        }
+        
+        #buttonSave {
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body onload = "init()">
+    <!-- Using an implicit label eliminating need of the 'for' attribute -->
+    <p><label>First Name: <input id="txtFirstName" type="text" size="25" placeholder="Enter your first name"></label></p>
+    <p><label>Last Name: <input id="txtLastName" type="text" size="25" placeholder="Enter your last name"></label></p>
+    <p><label>Birth Date: <input id="dateBD" type="date"></label></p>
+    <input type="button" id="buttonSave" value="Save Person">
+    <table id='tablePeople'>
+        <caption>My People</caption>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Birth Date</th>
+        </tr>
+    </table>
+    <script>
+        var arrPeople = [];
+        function init(){ 
+            document.getElementById("buttonSave").addEventListener("click", savePerson);
+            document.getElementById("txtFirstName").value = "";
+            document.getElementById("txtLastName").value = ""; 
+            document.getElementById("dateBD").value = "";
+        }
+        function savePerson(){
+            var fName = document.getElementById("txtFirstName").value;
+            var lName = document.getElementById("txtLastName").value;
+            var bDay = new Date(document.getElementById("dateBD").value);
+            let person = {
+                firstName: fName, 
+                lastName: lName,
+                birthDate: bDay 
+            };
+            arrPeople.push(person);
+            localStorage.setItem("Person:", JSON.stringify(arrPeople));
+            const tableContainer = document.getElementById('tablePeople');
+               while(tableContainer.rows.length > 1) {
+                    tableContainer.rows[1].remove(); 
+            }
+            displayStoredPeople();
+        }
+        function insertRowUsingDomManipulation(tableContainer, person){
+            var tempRow = tableContainer.insertRow();
+            var tdFName = tempRow.insertCell();
+            var tdLName = tempRow.insertCell();
+            var tdBDay = tempRow.insertCell();
+            tdFName.innerHTML = person.firstName;
+            tdLName.innerHTML = person.lastName;
+            let tempDate = person.birthDate;
+            tdBDay.innerHTML = tempDate.toLocaleDateString();
+            tempRow.append(tdFName, tdLName, tdBDay);
+        }
+        function displayStoredPeople(){
+            const tableContainer = document.getElementById('tablePeople');
+            for(let i = 0; i < arrPeople.length; i++) {
+                insertRowUsingDomManipulation(tableContainer, arrPeople[i]);
+            }  
+          }
+    </script>
+</body>
+
+</html>

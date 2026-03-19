@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Extra Credit Challenge</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            #entryArea{
+                border: 1px solid black;
+                width: 20%;
+                border-radius: 100px;
+                text-align: center;
+                box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5) #009ACD;
+            }
+        </style>
+    </head>
+    <body onload="init()">
+        <div id="chartContainer" style="height: 370px; width: 100%;"></div> 
+        <div id="entryArea"> 
+            <p>What is your favorite programming language?</p>
+            <p><input name="language" type="radio" value="Web Design">Web Design</p> 
+            <p><input name="language" type="radio" value="Java">Java</p>
+            <p><input name="language" type="radio" value="Python">Python</p>
+            <p><input name="language" type="radio" value="Other">Other</p>
+            <button type="submit" id="submitButton">Submit</button>
+        </div>
+         
+        <script>
+            function init(){
+                arrChoices = [];
+                unCheckItems();
+                walkThroughStorage();
+                document.getElementById("submitButton").addEventListener("click", drawItem);
+               
+            }
+            function walkThroughStorage(){
+                var curTextStorage = localStorage.getItem("ClickedBoxes");
+                    if(curTextStorage !== null){ 
+                       
+                    }
+                }
+            function unCheckItems(){
+                var ele = document.getElementById("entryArea").querySelectorAll("input");
+                for(let i = 0; i < ele.length; i++) {
+                    if(ele[i].checked){
+                        ele[i].checked = false;
+                    } 
+                }
+            }
+            function drawItem(){
+                var savedClicks = localStorage.getItem("ClickedBoxes");
+                let clickDict = JSON.parse(savedClicks) || {};
+                var ele = document.getElementById("entryArea").querySelectorAll("input");
+                for(let i = 0; i < ele.length; i++){
+                    if(ele[i].checked){                  
+                        if(!clickDict[ele[i].value]){ 
+                            clickDict[ele[i].value]=1;
+                        }
+                        else//the key of 1,2,3,4 or 5 (contents of curRandNum) exist in theDict so add one to its value 
+                        {
+                            clickDict[ele[i].value] += 1; 
+                        }   
+                    }
+                    localStorage.setItem("ClickedBoxes",JSON.stringify(clickDict));
+               }
+                
+            }
+        </script>
+   
+    </body>
+</html>

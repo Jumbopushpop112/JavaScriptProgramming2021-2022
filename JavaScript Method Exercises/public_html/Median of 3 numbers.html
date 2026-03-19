@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <script>
+            //get numbers and cast to an integer
+            var num1 = parseInt(prompt("Enter the first number please"));
+            var num2 = parseInt(prompt("Enter the second number please"));
+            var num3 = parseInt(prompt("Enter the third number please"));
+            //array that holds the numbers then sorts then, then returns the item at position 1 which is the median
+            const numbers = [num1, num2, num3];
+            numbers.sort(); 
+            var median = numbers[1];  
+            console.log(median); 
+        </script>
+    </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <script>
+            const input = "Every developer likes to mix kubernetes and javascript";
+            var arrString = input.split(" ");
+            arrString = arrString.map(getCharactersInBetween);
+            function getCharactersInBetween(string){
+                if(string.length > 3){
+                    //get the length of the characters between the strings
+                     var charsInBetween = string.substring(1,string.length-1).length;
+                     //return the first letter + the length of the chars + the last letter
+                     return string.charAt(0) + charsInBetween + string.charAt(string.length-1); 
+                }
+                else{
+                    return string;   
+                }           
+            }
+            //join the strings by using a space
+            arrString = arrString.join(" ");
+            console.log(arrString);
+        </script>
+    </body>
+</html>

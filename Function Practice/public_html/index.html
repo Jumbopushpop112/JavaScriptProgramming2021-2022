@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Functions</title> 
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body onload="init()">
+        <script> 
+            function init(){
+                var a = parseInt(Math.random()*(5-1+1)+1); //random number 1 to 5
+                var b = parseInt(Math.random()*(15-11+1)+11); //random number 11 to 15
+                var c = parseInt(Math.random()*(10-6+1)+6); //random number 6 to 10  
+                console.log(a); 
+                console.log(b);
+                console.log(c); 
+                //call calcPostRoot and send a, b, and c
+                //and saved the returned value in a variable named curRoot 
+                var curRoot = calcPosRoot(a,b,c);
+                if(curRoot < -1){  
+                    console.log("We have complex roots");
+                }else{
+                      console.log(curRoot);            
+                }      
+            } 
+            function calcPosRoot(a, b, c){
+                alert("Entered calc positive root");
+                var discriminant = b**2 -(4*a*c); 
+                if(discriminant === 0){
+                    //one root return vertex -b/2a
+                    return -b/(2*a);
+                }
+                else if (discriminant > 0){
+                    //we have two real roots return positive roots
+                    return (-b + Math.sqrt(b**2 - (4*a*c)) / 2*a); 
+                }
+                else{
+                    //we have complex root, imaginary number return -1 instead
+                    return -1; 
+                }
+            } 
+        </script>
+    </body>
+</html>

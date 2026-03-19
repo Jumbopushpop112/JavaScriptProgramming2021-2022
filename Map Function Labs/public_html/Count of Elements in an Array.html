@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <script>
+            var input = [
+                ["a","b","c"],
+                ["c","d","f"],
+                ["d","f","g"]
+            ];
+            var countArray = {};
+            //change the array into one big array
+            input = input.flat();
+            //poopulate an object filled with the letters and the times they appear
+            countArray = input.reduce((previousValue, curValue) => {
+                if(Object.keys(countArray).length === 0){ 
+                    countArray[previousValue] = 1;
+                }
+                if(curValue in countArray){
+                    countArray[curValue] += 1;
+                }
+                else{
+                    countArray[curValue] = 1;
+                }
+                return countArray;
+            });
+            console.log(countArray);
+        </script>
+    </body>
+</html>

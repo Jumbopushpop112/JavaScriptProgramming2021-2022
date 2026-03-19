@@ -1,0 +1,283 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Best Hardware Store (Lawnmowers)</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            /*The following style code came from:
+            https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_accordion_symbol*/
+            .accordion {
+                background-color: #eee;
+                color: #444;
+                cursor: pointer;
+                padding: 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 15px;
+                transition: 0.4s;
+            }
+
+            .active, .accordion:hover {
+                background-color: #ccc;
+            }
+
+            .accordion:after {
+                content: '\002B';
+                color: #777;
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+
+            .active:after {
+                content: "\2212";
+            }
+
+            .panel {
+                padding: 0 18px;
+                background-color: white;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+            }
+            #categories{
+                float:left;
+            }
+            #lawnmowers{
+                display: grid;
+                grid-template-columns:33% 33% 33%;
+                grid-column-gap:5px;
+                grid-row-gap:5px;
+                justify-content: end; /*like float right*/
+                padding-left: 20px;
+            }
+            h1{
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <header id="banner"><h1>Lawn Mowers at Best Hardware</h1></header>
+        <p id="images"></p>
+        
+        <section id = "categories">
+            <button class="accordion">BRAND NAME</button>
+            <div id="brand" class="panel">
+                 
+            </div>
+            
+            <button class="accordion">PRICE</button>
+            <div id="price" class="panel"></div>
+            
+            <button class="accordion">CUTTING WIDTH</button>
+            <div id="cuttingwidth" class="panel"></div>
+            
+        </section>
+        
+        <section id="lawnmowers"></section>
+        
+        
+        <script> 
+             window.addEventListener("load", fetchMowers); 
+            /*The following JS code came from:
+            https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_accordion_symbol*/
+            let cuttingWidthDict = {};
+            let brandDict = {};
+            var acc = document.getElementsByClassName("accordion");
+            var i;
+
+            for (i = 0; i < acc.length; i++) {
+              acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling; 
+                if (panel.style.maxHeight) {
+                  panel.style.maxHeight = null;
+                } else {
+                  panel.style.maxHeight = panel.scrollHeight + "px";
+                } 
+              });
+            } 
+           function fetchMowers() {
+                 fetch("LawnMowers.csv") 
+                    .then((response) => {
+                    if (!response.ok) {
+                        throw response.status;
+                    }
+                    return response.text();
+                })
+                .then((body) => body.split("\r\n"))  
+                .then((lines) => {
+                    const headers = lines.shift().split(",");
+                    const mowerList = [];
+                    for(const line of lines){
+                        const parts = line.split(",");   
+                        const mower = {};   
+                        for(let i = 0; i<parts.length; i++){
+                            var temp = parts[i];
+                            const colum_name = headers[i];
+                            mower[colum_name] = parts[i];
+                            temp = parseInt(temp);
+                            if(isNaN(temp)){
+                                temp = parts[i];   
+                            }  
+                        }  
+                        console.log(mower);
+                        mowerList.push(mower);   
+                    }
+                    return mowerList; 
+                })
+                .then(renderMowers) 
+                .catch((err) => {     
+                    console.error("Didn't get mowers: " + err);
+                });
+            function renderMowers(mowerList){
+                 for(const mower of mowerList){
+                     //create parent to host item
+                     var mowerHost = document.createElement("DIV");
+                     mowerHost.brand = mower.Brand; 
+                     mowerHost.cuttingWidth = mower.CuttingWidth;
+                     mowerHost.price = mower.PriceRange;
+                     //create image of mover
+                     var mowerImage = document.createElement("IMG");
+                     mowerImage.src = mower.ImageFile;    
+                     //create mower description
+                     var mowerDescription = document.createElement("P");
+                     mowerDescription.innerHTML = mower.Description;
+                     mowerDescription.className = "description";
+                     //create the price tag
+                     var mowerPrice = document.createElement("P");
+                     mowerPrice.innerHTML = "$" + mower.Price;
+                     //create the price descritpion
+                     mowerHost.appendChild(mowerImage);
+                     mowerHost.appendChild(mowerDescription);
+                     mowerHost.appendChild(mowerPrice);
+                     if(mower.SaleDescription !== "No Sale Description"){
+                         var saleDescriptionText = document.createElement("p");
+                         saleDescriptionText.innerHTML = mower.SaleDescription;
+                         mowerHost.appendChild(saleDescriptionText); 
+                     } 
+                     document.getElementById("lawnmowers").appendChild(mowerHost);
+                 }
+                 renderBrandNames(mowerList);
+            }
+            function renderBrandNames(mowerList){ 
+               
+                for(let i=0; i<mowerList.length; i++){ 
+                    var brand = mowerList[i].Brand; 
+                    if(!brandDict[brand]){ 
+                        brandDict[brand]=1;
+                    }
+                    else//the key of 1,2,3,4 or 5 (contents of curRandNum) exist in theDict so add one to its value 
+                    {
+                        brandDict[brand] += 1; 
+                    } 
+                }
+                arrBrandClasses = [];
+                for (const [key, value] of Object.entries(brandDict)) { 
+                     var spanHost = document.createElement("SPAN");
+                     spanHost.innerHTML = key + "(" + value + ")";
+                     //spanHost.setAttribute("class", "filterSpan");
+                     //create input box itself   
+                     var filterInput = document.createElement("INPUT");
+                     filterInput.type = "checkbox";
+                     filterInput.value = key;
+                     filterInput.addEventListener("click", filter); 
+                     //create break
+                     var lineBreak = document.createElement("br");
+                     //append to dom 
+                     spanHost.innerHTML = key + "(" + value + ")"; 
+                     spanHost.appendChild(filterInput);
+                     spanHost.appendChild(lineBreak);
+                     document.getElementById("brand").appendChild(spanHost);
+                }
+                renderPriceNames(mowerList);  
+              }
+          }
+          function renderPriceNames(mowerList){
+              arrPrices = ["$50.00 To $100.00", "$100.00 To $250.00", "$250.00 To $500.00", "$500.00 To $1000.00", "Over $1000.00"];  
+              for(var i = 0; i<arrPrices.length; i++){ 
+                     var spanHost = document.createElement("SPAN");
+                     spanHost.innerHTML = arrPrices[i];
+                     //spanHost.setAttribute("class", "filterSpan");
+                     //create input box itself
+                     var filterInput = document.createElement("INPUT"); 
+                     filterInput.type = "checkbox";
+                     filterInput.value = arrPrices[i]; 
+                     filterInput.addEventListener("click", filter);
+                     //create break
+                     var lineBreak = document.createElement("br");
+                     //append to dom 
+                     spanHost.appendChild(filterInput);
+                     spanHost.appendChild(lineBreak);
+                     document.getElementById("price").appendChild(spanHost);
+              }
+              renderCuttingWidth(mowerList); 
+          }
+          function renderCuttingWidth(mowerList){               
+                for(let i=0; i<mowerList.length; i++){ 
+                    var cuttingWidth = mowerList[i].CuttingWidth; 
+                    if(!cuttingWidthDict[cuttingWidth]){ 
+                        cuttingWidthDict[cuttingWidth]=1;
+                    }
+                    else
+                    {
+                        cuttingWidthDict[cuttingWidth] += 1;   
+                    }
+                }  
+                for (const [key, value] of Object.entries(cuttingWidthDict)) {
+                     var spanHost = document.createElement("SPAN");
+                     //spanHost.setAttribute("class", "filterSpan");
+                     spanHost.innerHTML = key + " in " + "(" + value + ")"; 
+                     //create input box itself
+                     var filterInput = document.createElement("INPUT");
+                     filterInput.type = "checkbox"; 
+                     filterInput.value = key;
+                     filterInput.addEventListener("click", filter); 
+                     //create break 
+                     var lineBreak = document.createElement("br"); 
+                     //append to dom  
+                     spanHost.appendChild(filterInput);
+                     spanHost.appendChild(lineBreak);   
+                     document.getElementById("cuttingwidth").appendChild(spanHost);
+               }
+          }
+          function filter(){
+              //find all the filter states of the check boxes
+              var checkedBrands = getFilterState("brand"); 
+              var checkedPrices = getFilterState("price");
+              var checkedWidths = getFilterState("cuttingwidth");
+              //show and hide stuff in the ui
+              var imageSection = document.getElementById("lawnmowers");
+              var divImages = imageSection.children;
+              for(var i = 0; i<divImages.length; i++){
+                  divImages[i].style.display = "block";
+                  //check to see if the value of the input is found in the 2nd child of the divImages
+                  if(checkedBrands.length > 0 && !checkedBrands.includes(divImages[i].brand)){
+                       divImages[i].style.display = "none";  
+                  }
+                  if(checkedWidths.length > 0 && !checkedWidths.includes(divImages[i].cuttingWidth)){
+                       divImages[i].style.display = "none";   
+                  }
+                  if(checkedPrices.length > 0 && !checkedPrices.includes(divImages[i].price)){
+                       divImages[i].style.display = "none";   
+                  }                
+              }     
+          }   
+          function getFilterState(id){  
+              var arrCheckedInputs = [];
+              var Inputs = document.getElementById(id).querySelectorAll("input");
+              //loop through all the inputs
+              //if they have been checked, push them into the array
+              for(var i = 0; i<Inputs.length; i++){
+                  if(Inputs[i].checked){
+                      arrCheckedInputs.push(Inputs[i].value);
+                  }
+              }
+              return arrCheckedInputs;
+          }   
+        </script>
+    </body>
+</html>

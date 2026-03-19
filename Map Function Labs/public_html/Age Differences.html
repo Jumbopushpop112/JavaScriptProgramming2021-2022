@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <script>
+            var finalArray = [];
+            const input = [
+                {
+                  name: "John",
+                  age:13
+                },
+                {
+                  name: "Mark",
+                  age:56
+                },
+                {
+                  name: "Rachel",
+                  age:45
+                },
+                {
+                  name: "Nate",
+                  age: 67
+                },
+                {
+                  name: "Jeniffer",
+                  age:65
+                }
+            ];
+            //return an array of ages, get the high and low age, subtract them and then add them to the new array
+            var arrAges = input.map(x => x.age);
+            var lowAge = Math.min(...arrAges);
+            var highAge = Math.max(...arrAges);
+            var ageDifference = highAge-lowAge;
+            finalArray.push(lowAge,highAge,ageDifference);
+            console.log(finalArray);
+        </script>
+    </body>
+</html>

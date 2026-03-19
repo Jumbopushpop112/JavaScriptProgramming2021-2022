@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Date Object Lab</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body onload="getDates()">
+        <script>
+            function getDates(){
+                //using the date object, I can get the months, hours, etc and display them accordingly.
+                const date = new Date();
+                const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                document.write("The complete date and time is: " + date + "<br>");
+                document.write("The current day of the month is: " + date.getDate() + "<br>");
+                document.write("The current month of the year is: " + parseInt(date.getMonth()+1) + " or " + months[date.getMonth()] + "<br>");
+                document.write("The current year is: " + date.getFullYear() + "<br>"); 
+                document.write("The current date in U.S format is: " + parseInt(date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear() + "<br>");
+                document.write("The current number of miliseconds since January 1, 1970 is: " + date.getTime() + "<br>");
+                document.write("The current time is: " + date.getHours() + ":" + date.getMinutes() + "<br>");
+                var year = date.getFullYear() + 1;
+                var month = date.getMonth();
+                var day = date.getDay();
+                var hour = date.getHours();
+                var minutes = date.getMinutes(); 
+                var seconds = date.getSeconds();
+                var milliseconds = date.getMilliseconds();
+                var dateOneYearFromNow = new Date(year,month,day,hour,minutes,seconds,milliseconds); 
+                document.write("One year from now Complete Date and Time is: " + dateOneYearFromNow + "<br>");    
+                document.write("The date one year from now will be: " + parseInt(date.getMonth()+1) + "/" + date.getDate() + "/" + parseInt(date.getFullYear()+1) + "<br>");
+                
+            }  
+        </script>
+    </body>
+</html>

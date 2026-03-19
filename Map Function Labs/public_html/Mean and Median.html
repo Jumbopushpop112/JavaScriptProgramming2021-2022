@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <script>
+            var input = [12, 46, 32, 64];
+            const meanArray = input.reduce(findAverage);
+            function findAverage(total, num){
+                return total + num;
+            }
+            input.sort();
+            findMedian();
+            function findMedian(){   
+                //if the array has an even length, get middle two values and divide by 2
+                var median;
+                if(input.length % 2 === 0){
+                    const middle = input.length/2;
+                    median = (input[middle] + input[middle-1])/2;
+                }
+                //else, if the array has an odd length, divide the length by two and round to get the median
+                else{
+                    median = input[Math.floor(input.length/2)];
+                }
+                return median;
+            }
+            console.log("Mean is: " + meanArray/input.length);
+            console.log("Median is: " + findMedian());
+        </script>
+    </body>
+</html>

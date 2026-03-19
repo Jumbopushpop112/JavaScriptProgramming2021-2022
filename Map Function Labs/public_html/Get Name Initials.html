@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <script>
+            //string we are using for this exercise
+            var stringName = "George Raymond Richard Martin";
+            //create an array of each word in the string by splitting them on the space
+            var arrString = stringName.split(" ");
+            //return the first character of each item in the array using the map method.
+            arrString = arrString.map(splitString);
+            //join them together as one string once you have all the characters
+            arrString = arrString.join("");
+            console.log(arrString);
+            //get the first character of each string for each element in an array
+            function splitString(stringName){
+                return stringName.substring(0,1);
+            } 
+        </script>
+    </body>
+</html>

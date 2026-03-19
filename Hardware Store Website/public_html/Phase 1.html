@@ -1,0 +1,237 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Best Hardware Store (Lawnmowers)</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            /*The following style code came from:
+            https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_accordion_symbol*/
+            .accordion {
+                background-color: #eee;
+                color: #444;
+                cursor: pointer;
+                padding: 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 15px;
+                transition: 0.4s;
+            }
+
+            .active, .accordion:hover {
+                background-color: #ccc;
+            }
+
+            .accordion:after {
+                content: '\002B';
+                color: #777;
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+
+            .active:after {
+                content: "\2212";
+            }
+
+            .panel {
+                padding: 0 18px;
+                background-color: white;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+            }
+            #categories{
+                float:left;
+            }
+            #lawnmowers{
+                display: grid;
+                grid-template-columns:33% 33% 33%;
+                grid-column-gap:5px;
+                grid-row-gap:5px;
+                justify-content: end; /*like float right*/
+                padding-left: 20px;
+            }
+            h1{
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <header id="banner"><h1>Lawn Mowers at Best Hardware</h1></header>
+        <p id="images"></p>
+        
+        <section id = "categories">
+            <button class="accordion">BRAND NAME</button>
+            <div id="brand" class="panel">
+                 
+            </div>
+            
+            <button class="accordion">PRICE</button>
+            <div id="price" class="panel"></div>
+            
+            <button class="accordion">CUTTING WIDTH</button>
+            <div id="cuttingwidth" class="panel"></div>
+            
+        </section>
+        
+        <section id="lawnmowers"></section>
+        
+        
+        <script> 
+             window.addEventListener("load", fetchMowers); 
+            /*The following JS code came from:
+            https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_accordion_symbol*/
+            
+            var acc = document.getElementsByClassName("accordion");
+            var i;
+
+            for (i = 0; i < acc.length; i++) {
+              acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling; 
+                if (panel.style.maxHeight) {
+                  panel.style.maxHeight = null;
+                } else {
+                  panel.style.maxHeight = panel.scrollHeight + "px";
+                } 
+              });
+            } 
+           function fetchMowers() {
+                 fetch("LawnMowers.csv") 
+                    .then((response) => {
+                    if (!response.ok) {
+                        throw response.status;
+                    }
+                    return response.text();
+                })
+                .then((body) => body.split("\r\n"))  
+                .then((lines) => {
+                    const headers = lines.shift().split(",");
+                    const mowerList = [];
+                    for(const line of lines){
+                        const parts = line.split(",");   
+                        const mower = {};   
+                        for(let i = 0; i<parts.length; i++){
+                            var temp = parts[i];
+                            const colum_name = headers[i];
+                            mower[colum_name] = parts[i];
+                            temp = parseInt(temp);
+                            if(isNaN(temp)){
+                                temp = parts[i];   
+                            }  
+                        }  
+                        console.log(mower);
+                        mowerList.push(mower);   
+                    }
+                    return mowerList; 
+                })
+                .then(renderMowers) 
+                .catch((err) => {     
+                    console.error("Didn't get mowers: " + err);
+                });
+            function renderMowers(mowerList){
+                 for(const mower of mowerList){
+                     //create parent to host item
+                     var mowerHost = document.createElement("DIV");
+                     //create image of mover
+                     var mowerImage = document.createElement("IMG");
+                     mowerImage.src = mower.ImageFile;    
+                     //create mower description
+                     var mowerDescription = document.createElement("P");
+                     mowerDescription.innerHTML = mower.Description;
+                     //create the price tag
+                     var mowerPrice = document.createElement("P");
+                     mowerPrice.innerHTML = "$" + mower.Price;
+                     //create the price descritpion
+                     if(mower.SaleDescription !== "No Sale Description"){
+                         var saleDescription = document.createElement("p");
+                         saleDescription.innerHTML = mower.SaleDescription;
+                     }
+                     //append items to parent element 
+                     mowerHost.appendChild(mowerImage);
+                     mowerHost.appendChild(mowerDescription);
+                     mowerHost.appendChild(mowerPrice);
+                     mowerHost.appendChild(saleDescription);
+                     //append parent element to DOM  
+                     document.getElementById("lawnmowers").appendChild(mowerHost);
+                 }
+                 renderBrandNames(mowerList);
+            }
+            function renderBrandNames(mowerList){ 
+                let brandDict = {};
+                for(let i=0; i<mowerList.length; i++){ 
+                    var brand = mowerList[i].Brand; 
+                    if(!brandDict[brand]){ 
+                        brandDict[brand]=1;
+                    }
+                    else//the key of 1,2,3,4 or 5 (contents of curRandNum) exist in theDict so add one to its value 
+                    {
+                        brandDict[brand] += 1; 
+                    } 
+                }  
+                for (const [key, value] of Object.entries(brandDict)) { 
+                     var spanHost = document.createElement("SPAN");
+                     spanHost.innerHTML = key + "(" + value + ")"; 
+                     //create input box itself   
+                     var filterInput = document.createElement("INPUT");
+                     filterInput.type = "checkbox"; 
+                     //create break
+                     var lineBreak = document.createElement("br");
+                     //append to dom 
+                     spanHost.innerHTML = key + "(" + value + ")"; 
+                     spanHost.appendChild(filterInput);
+                     spanHost.appendChild(lineBreak);
+                     document.getElementById("brand").appendChild(spanHost);
+                }
+                renderPriceNames(mowerList);  
+              }
+          }
+          function renderPriceNames(mowerList){
+              arrPrices = ["$50.00 to $100.00 (2)", "$100.00 to $250.00 (8)", "$250.00 to $500.00 (21)", "$500.00 to $1000.00 (2)", "Over $1000.00 (1)"];
+              for(var i = 0; i<arrPrices.length; i++){
+                     var spanHost = document.createElement("SPAN");
+                     spanHost.innerHTML = arrPrices[i]; 
+                     //create input box itself
+                     var filterInput = document.createElement("INPUT"); 
+                     filterInput.type = "checkbox";
+                     //create break
+                     var lineBreak = document.createElement("br");
+                     //append to dom 
+                     spanHost.appendChild(filterInput);
+                     spanHost.appendChild(lineBreak);
+                     document.getElementById("price").appendChild(spanHost);
+              }
+              renderCuttingWidth(mowerList); 
+          }
+          function renderCuttingWidth(mowerList){
+               let cuttingWidthDict = {};
+                for(let i=0; i<mowerList.length; i++){ 
+                    var cuttingWidth = mowerList[i].CuttingWidth; 
+                    if(!cuttingWidthDict[cuttingWidth]){ 
+                        cuttingWidthDict[cuttingWidth]=1;
+                    }
+                    else
+                    {
+                        cuttingWidthDict[cuttingWidth] += 1;   
+                    }
+                }  
+                for (const [key, value] of Object.entries(cuttingWidthDict)) {
+                     var spanHost = document.createElement("SPAN");
+                     spanHost.innerHTML = key + " in " + "(" + value + ")"; 
+                     //create input box itself
+                     var filterInput = document.createElement("INPUT");
+                     filterInput.type = "checkbox";
+                     //create break
+                     var lineBreak = document.createElement("br");
+                     //append to dom  
+                     spanHost.appendChild(filterInput);
+                     spanHost.appendChild(lineBreak);   
+                     document.getElementById("cuttingwidth").appendChild(spanHost);
+               }
+          }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body onload="init()">
+        <script>
+            function init(){
+                askWords();
+            }
+            //get words from user
+            function askWords(){
+                var word1 = prompt("Enter your first word.");
+                var word2 = prompt("Enter your second word.");
+                word1 = word1.toLowerCase();  
+                word2 = word2.toLowerCase();
+                anagramCheck(word1, word2);   
+            }
+            //check to see if the words are anagrams
+            function anagramCheck(word1, word2){ 
+                  dictWord1 = {};
+                  dictWord2 = {};
+                  //populate dictionaries
+                  for(var i = 0; i<word1.length; i++){
+                      const curLetter = word1[i];
+                      if(!dictWord1[curLetter]){
+                          dictWord1[curLetter]=1;
+                      }
+                      else 
+                      {
+                          dictWord1[curLetter] += 1; 
+                      }
+                  } 
+                  for(var i = 0; i<word2.length; i++){
+                      const curLetter = word2[i];
+                      if(!dictWord2[curLetter]){
+                          dictWord2[curLetter]=1;
+                      }
+                      else
+                      { 
+                          dictWord2[curLetter] += 1;           
+                      }
+                  } 
+                  console.log(isAnagram(dictWord1, dictWord2));
+            }
+            function isAnagram(dictWord1, dictWord2){ 
+                for(key of Object.keys(dictWord1)){
+                      if(dictWord1[key] !== dictWord2[key]){
+                          return "Not anagrams";
+                      }          
+                }
+                return "Anagrams";
+            }
+        </script>
+    </body>
+</html>

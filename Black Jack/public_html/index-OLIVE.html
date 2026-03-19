@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Black Jack Game</title>  
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href='Styles.css'> 
+    </head>
+    <body onload="initializeGame()">                                
+        <br> 
+        <section id='scoreBoard'>               
+            <fieldset>
+                <legend>Score Board</legend>
+                Dealer's Score: <input type='text' id='txtDealersScore' class='txtBox'>
+                &nbsp;&nbsp;&nbsp;&nbsp; 
+                Player's Score: <input type='text' id='txtPlayersScore' class='txtBox'>             
+            </fieldset>        
+        </section>    
+        <br>
+        <section class='fieldset'>   
+            <fieldset id='dealersHand' class='hand'>        
+                <legend>Dealer's Hand</legend>
+                <!--<input type='text' id='txtDealersCard1' class='txtBox'>-->                 
+                <!--<input type='text' id='txtDealersCard2' class='txtBox'>-->     
+            </fieldset>   
+        </section> 
+        <br>         
+        <section class='fieldset'>      
+            <fieldset id='playersHand' class='hand'> 
+                <legend>Player's Hand</legend>
+                <!--<input type='text' id='txtPlayersCard1' class='txtBox'>-->
+                <!--<input type='text' id='txtPlayersCard2' class='txtBox'>-->       
+            </fieldset>
+        </section>
+        <br>     
+        <section id='gameButtons'> 
+            <input type='button' value='Deal' id='dealButton' class='button'> 
+            <input type='button' value='Hit' id='hitButton' class='button'>
+            <input type='button' value='Stay' id='stayButton' class='button'>
+            <input type='button' value='Play Again' id='playAgainButton' class='button'>
+        </section> 
+        <script src="BlackJackPhase1.js"></script>    
+    </body>   
+</html>    
+
+
+
+
+
+
+

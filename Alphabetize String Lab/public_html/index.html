@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body onload="main()">
+        <script>
+            //main function that runs the function
+            function main(){
+                var str = prompt("Enter a string!");
+                console.log(alphabetizeString(str));     
+            } 
+            //function that returns the string
+            function alphabetizeString(str){ 
+                //debugger;
+                //asign str to tempString= 
+                var tempString = str; //act as the original with smallest character removed 
+                var curSmallestLetter = "";  
+                var result = "";      
+                //find smallest letter add the smallest letter to my result string only if its not a space character
+                while(tempString.length > 0){  
+                    curSmallestLetter = getSmallestLetter(tempString);
+                    //tempString += curSmallestLetter; 
+                    if(curSmallestLetter !== " "){     
+                        result += curSmallestLetter;   
+                        //result = result + curSmallestLetter;   
+                    }  
+                    tempString = removeSmallestLetter(tempString, curSmallestLetter); 
+                } 
+                return result; 
+            } 
+            //getting smallest letter
+            function getSmallestLetter(tempString, curSmallestLetter){
+                //debugger;
+                var min = tempString.substring(0,1);
+                for(let i = 1; i<tempString.length; i++){
+                   let curLetter = tempString.substring(i, i +1);
+                   if(curLetter < min){  
+                       min = curLetter; 
+                   }    
+                }
+                return min; 
+            }
+            //removes the smallest letter
+            function removeSmallestLetter(tempString, curSmallestLetter){
+               var result = "";
+               let posSmallestChar = tempString.indexOf(curSmallestLetter);
+               //building result string to contain the chars of tempString from 0 to posSmallestChar plus all char for posSmallestChar plus one
+               result = tempString.substring(0, posSmallestChar) + tempString.substring(posSmallestChar + 1);
+               return result;
+            }
+        </script>
+    </body>
+</html>

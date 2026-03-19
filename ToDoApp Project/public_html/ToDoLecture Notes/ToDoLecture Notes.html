@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Intro to For Loops</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .demoParagraphs:hover{
+                background-color:yellow;
+            } 
+        </style>
+    </head>
+    <body onload="init()">
+        <h1>Blah Blah</h1>
+        <section id="mainContent"></section>
+         <script>
+             function init(){
+                 const arrColors = ["red","green","blue","orange"];
+                 //use a traditional for loop to walk through array
+                 //send each color to the do something function
+//                 for(let i = 0; i<arrColors.length; i++){
+//                     createSomething(arrColors[i]);
+//                 }
+                 
+                 console.log("\n");
+                 arrColors.forEach(createSomething);  
+             }
+             function createSomething(someItem){ 
+                const tempPar = document.createElement("P");
+                tempPar.className = "demoParagraphs";
+                tempPar.innerHTML = someItem; 
+                document.getElementById("mainContent").appendChild(tempPar);
+                tempPar.addEventListener("mouseover", styleMe); 
+                tempPar.addEventListener("mouseout", unstyleFont);
+             }
+             function styleMe(){
+                 this.style.fontSize = "x-large";
+             }  
+             function unstyleFont(){
+                 this.style.fontSize = "medium";  
+             }
+         </script>
+    </body>
+ 
+</html>
+
+

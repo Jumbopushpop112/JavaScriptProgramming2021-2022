@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>JS StopWatch</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            #container{
+                background-color: lightgreen;
+                display:flex;
+                flex-direction: column;
+                align-items: center;
+                margin-left: auto;
+                margin-right: auto;
+                width:35%;        
+            }
+
+            #buttonContainer{
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                column-gap: 20px;
+                margin-top: 20px;
+                margin-bottom: 40px;
+
+            }
+            input{
+                width:50%;
+                border-radius: 10px;
+                font-size: 2em;
+            }
+            span{
+                font-size:2em;
+            }
+        </style>
+        
+        
+    </head>
+    <body onload = "init()">
+        <div id="container">
+            <div><h1>STOPWATCH</h1></div>
+            <div><h1>MY JAVASCRIPT STOPWATCH</h1></div>  
+            <div id="timeDisplay">
+                <SPAN id="minutes">00</SPAN>:<SPAN id="seconds">00</SPAN>:<SPAN id="hundredths">00</SPAN>  
+            </div>
+            <div id="buttonContainer">
+                <input type="button" id="btnStart" value="Start">
+                <input type="button" id="btnStop" value="Stop">
+                <input type="button" id="btnReset" value="Reset">                
+            </div>
+        </div>     
+        <script>
+              function init(){
+                  var myInterval;
+                  var minutes;
+                  var seconds;
+                  var hundredths;  
+                  document.getElementById('btnStart').addEventListener("click", function(){                    
+                      if(document.getElementById("minutes").innerHTML !== "00"){
+                          minutes = parseInt(document.getElementById("minutes").innerHTML);
+                      }else{
+                          minutes = 0;
+                      } 
+                      if(document.getElementById("hundredths").innerHTML !== "00"){
+                          hundredths = parseInt(document.getElementById("hundredths").innerHTML);
+                      }else{
+                          hundredths = 0;  
+                      }
+                      if(document.getElementById("seconds").innerHTML !== "00"){
+                         seconds = parseInt(document.getElementById("seconds").innerHTML);
+                      }else{
+                          seconds = 0;  
+                      } 
+                      myInterval = setInterval(function() {
+                            hundredths++;
+                            if(document.getElementById("minutes").innerHTML === "59" && document.getElementById("seconds").innerHTML === "59" && document.getElementById("hundredths").innerHTML === "99"){                              
+                                stopTime();
+                            }
+                            else{
+                            if(hundredths >= 10){  
+                                document.getElementById("hundredths").innerHTML = hundredths;
+                            }
+                            if(hundredths <= 9){
+                                document.getElementById("hundredths").innerHTML = "0" + hundredths;
+                            }  
+                            if(hundredths === 99){
+                                hundredths = 0;  
+                                seconds++;
+                                if(seconds > 59){ 
+                                    seconds = 0;
+                                    hundredths = 0;  
+                                    minutes++; 
+                                    if(minutes < 10){
+                                        document.getElementById("minutes").innerHTML = "0" + minutes;
+                                    }
+                                    if(minutes >= 10){
+                                        document.getElementById("minutes").innerHTML = minutes;
+                                    }
+                                }
+                                if(seconds < 10){ 
+                                     document.getElementById("seconds").innerHTML = "0" + seconds;   
+                                }
+                                if(seconds >= 10){
+                                    document.getElementById("seconds").innerHTML = seconds;
+                                }
+                                
+                            }
+                        }
+                          }, 10);      
+                        });
+                    
+                    
+                  document.getElementById('btnStop').addEventListener("click", function(){
+                      clearInterval(myInterval);                      
+                  });
+                  document.getElementById('btnReset').addEventListener("click", function(){
+                      clearInterval(myInterval);  
+                      document.getElementById("minutes").innerHTML = "00";
+                      document.getElementById("seconds").innerHTML = "00";
+                      document.getElementById("hundredths").innerHTML = "00"; 
+                  });
+                  function stopTime(){                     
+                      clearInterval(myInterval);
+                      alert("Cannot Display Past One Hour!");   
+                      document.getElementById("minutes").innerHTML = "00"; 
+                      document.getElementById("seconds").innerHTML = "00";
+                      document.getElementById("hundredths").innerHTML = "00";                      
+                  }
+              }
+        </script>
+       
+    </body>
+</html>
+
+

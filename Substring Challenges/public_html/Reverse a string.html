@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <script>
+            //reverse a string
+            var string = "I evol uoy os hcum";
+            string = string.split(" ");
+            var resultString = "";
+            for(var i = 0; i<string.length; i++){
+                var curWord = string[i].split("").reverse().join("");
+                resultString += " " + curWord;            
+            }
+            console.log(resultString);
+            
+        </script>
+    </body>
+</html>

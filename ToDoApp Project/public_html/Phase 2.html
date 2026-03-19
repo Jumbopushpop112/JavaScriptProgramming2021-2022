@@ -1,0 +1,77 @@
+<html lang="en">
+
+<head>
+    <title>My To Do List</title>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: gray;
+            font-family: sans-serif;
+        }
+        
+        #itemsList {
+            border: 1px solid black;
+            background-color: white;
+            padding-left: 0px;
+        }
+        
+        #itemsList li {
+            list-style-type: none;
+            margin: 1em;
+            padding-bottom: 1em;
+        }
+        .completed {
+            color: gray;
+            text-decoration: line-through; 
+        } 
+        
+        #itemsList li:last-child {
+            border-bottom: none;
+        }
+        
+        #itemsList li input {
+            margin-right: 2em;
+        }
+    </style>
+</head>
+<body onload = "init()">   
+    <h1>Things I need to do</h1>
+    <label>Type in the box to add it your list!</label>
+    <input type="text" id="userTask">
+    <button type="button" id="addButton">Click to add!</button>
+    <ul id="itemsList"> 
+        
+    </ul>
+    <script>
+        //init function
+        function init(){ 
+            document.getElementById("addButton").addEventListener("click", createTaskElements);
+            document.getElementById("userTask").value = "";     
+        }
+        //create elements and add them to the unordered list
+        //set attributes
+        function createTaskElements(){
+                 var userText = document.getElementById("userTask").value;
+                 var task = document.createElement("LI"); 
+                 task.id = "task";
+                 var input = document.createElement("INPUT");
+                 input.type = "checkbox";
+                 input.id = "chore";   
+                 var span = document.createElement("SPAN");
+                 span.innerHTML = userText;   
+                 task.appendChild(input);
+                 task.appendChild(span);
+                 task.addEventListener("click",crossOut); 
+                 document.getElementById("itemsList").append(task);
+                 //localStorage.setItem("Task", userText);
+             }     
+        //set the class name of the list item whenever it is clicked to completed
+        function crossOut(){   
+             this.className = "completed";
+             this.querySelector("input").checked = true;
+        } 
+    </script> 
+</body> 
+
+</html>

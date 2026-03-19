@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Tip Calculator</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body onload="init()">
+            <h1>Tip Calculator</h1>
+            <label for="costAmount">Enter Cost of Meal:</label>
+            <input id="costAmount" type="number"><br>
+            <p><button type="button" onclick="calculateTotal()" id="calcTip">Calculate Total</button></p>
+            <label for="tipAmount">Tip Percent:</label>
+            <input id="tipAmount" type="range" min="20" max="50"> 
+            <span id="tipPercent"></span><br><br>
+            <label for="resultingArea">Grand Total Cost (with tip and tax)</label>  
+            <input type="text" id="finalAmount" name="finalAmount">
+        <script>    
+            function init(){    
+                document.getElementById("calcTip").addEventListener("click", calculateTotal);
+                var slider = document.getElementById("tipAmount");
+                var tip = document.getElementById("tipPercent");
+                tip.innerHTML = slider.value;  
+                 slider.oninput = function() { 
+                    tip.innerHTML = this.value;
+                 };      
+            } 
+            function calculateTotal(){     
+                /*difference between let and var
+                var is function scope
+                let keyword has block scope meaning if you declare a var
+                in an if block that variable is only recognized in that if block
+                 */
+                /*get the mealcost from the textbox as a string
+                 * var mealCost = document.getElementById("costMeal");
+                 * convert meal cost to a float
+                   mealCost = parseFloat(mealCost);
+                 */     
+                 var total = parseFloat(document.getElementById("costAmount").value);
+                 var tip = parseFloat(document.getElementById("tipAmount").value); 
+                 var totalTip = total * (tip/100); 
+                 totalTip = parseFloat(totalTip);
+                 var tax = total * 0.07;  
+                 var totalAmount = parseFloat(total + totalTip + tax);    
+                 totalAmount = totalAmount.toFixed(2);         
+                 document.getElementById("finalAmount").value = totalAmount;   
+             } 
+        </script> 
+    </body>
+</html>
+
+  

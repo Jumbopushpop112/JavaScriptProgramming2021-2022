@@ -1,0 +1,154 @@
+<html lang="en">
+
+<head>
+    <title>My To Do List</title>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: gray;
+            font-family: sans-serif;
+        }
+        
+        #itemsList {
+            border: 1px solid black;
+            background-color: white;
+            padding-left: 0px;
+        }
+      
+        #itemsList li {
+            list-style-type: none;
+            margin: 1em;
+            padding-bottom: 1em;
+        }
+        .completed {
+            color: gray; 
+            text-decoration: line-through; 
+        } 
+        
+        #itemsList li:last-child {
+            border-bottom: none;
+        }
+        
+        #itemsList li input {
+            margin-right: 2em;
+        }
+    </style>
+</head>
+<body onload = "init()">   
+    <h1>Things I need to do</h1>
+    <label>Type in the box to add it your list!</label>
+    <input type="text" id="userTask">
+    <button type="button" id="addButton">Click to add!</button>
+    <select name="tasks" id="myTasks">
+        <option>Remove  Item</option>
+    </select> 
+    <ul id="itemsList"> 
+        
+    </ul>
+    <script>
+        //init function
+        var arrTasks = [];
+        function init(){ 
+            getLocalStorage();
+            walkThroughStorage();
+            document.getElementById("addButton").addEventListener("click", createTaskElements);
+            document.getElementById("userTask").value = ""; 
+        }
+        //create elements and add them to the unordered list  
+        //set attributes
+        function getLocalStorage()  
+        { 
+            var noteCurrentStorage = localStorage.getItem("Description:");  
+               if(noteCurrentStorage !== null)  
+                  {
+                     arrCurrentStorage = JSON.parse(noteCurrentStorage); 
+                    
+                     for(var i =0; i<arrCurrentStorage.length; i++)
+                     {
+                        arrTasks.push(arrCurrentStorage[i]); 
+                     }
+                  } 
+               else
+                  {
+                    arrTasks = [];     
+                  }  
+        }
+
+        function walkThroughStorage()   
+        {
+            var list = document.getElementById("itemsList");
+            for(var i = 0; i<arrTasks.length; i++)
+            { 
+               var date = new Date(arrTasks[i].date); 
+               var hours = date.getHours();   
+               var li = document.createElement("li"); 
+               var tempSpanTag = document.createElement("SPAN");
+               var input = document.createElement("INPUT"); 
+               input.type = "checkbox";
+               li.addEventListener("click", crossOut);
+               var minutes = date.getMinutes();
+               var ampm = (hours >= 12) ? "PM" : "AM";
+               if(hours > 12){
+                   hours -= 12;
+               }   
+               tempSpanTag.innerHTML = arrTasks[i].name + " " +  parseInt(date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear() + " " + " " + hours + ":" + minutes + " " + ampm;
+               li.appendChild(input);
+               li.appendChild(tempSpanTag);      
+               list.appendChild(li); 
+               var optionTag = document.createElement("OPTION");
+               optionTag.innerHTML = arrTasks[i].name;
+               optionTag.addEventListener("click", deleteTask);
+               document.getElementById("myTasks").append(optionTag);
+               arrTasks.sort((a, b) => (a.date > b.date) ? 1 : -1); 
+            }  
+        }
+        function randomDate(start, end) { 
+            return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+        }
+        function createTaskElements(){
+                var userText = document.getElementById("userTask").value; 
+                const date =  randomDate(new Date(2012, 0, 1), new Date());
+                let taskItem = {
+                    name: userText, 
+                    date: date.toISOString(),
+                    isChecked: false  
+                }; 
+                 arrTasks.push(taskItem);
+                 localStorage.setItem("Description:", JSON.stringify(arrTasks));  
+                 //arrTasks.sort((a, b) => (a.date > b.date) ? 1 : -1); 
+                 //clear todo list 
+                 const listContainer1 = document.getElementById('itemsList');
+                 while(listContainer1.children.length > 0) {
+                    listContainer1.children[0].remove();    
+                 }  
+                 //clear select tag
+                 const listContainer2 = document.getElementById('myTasks');
+                 while(listContainer2.children.length > 1) {
+                    listContainer2.children[1].remove();   
+                 }        
+                 walkThroughStorage();
+             }     
+        //set the class name of the list item whenever it is clicked to completed
+        function crossOut(){   
+             this.className = "completed";
+             this.querySelector("input").checked = true;
+        }  
+        function deleteTask(){
+            var tempSelectTag = document.getElementById("myTasks");
+            var selectedIndex = tempSelectTag.selectedIndex;
+            tempSelectTag.removeChild(tempSelectTag[selectedIndex]);
+            arrTasks.splice(selectedIndex-1, 1); 
+            localStorage.setItem("Description:", JSON.stringify(arrTasks));
+            document.getElementById("userTask").value = "";
+            const listContainer = document.getElementById('itemsList');
+             while(listContainer.children.length > 0) { 
+                    listContainer.children[0].remove();   
+               }    
+        }
+    </script> 
+</body> 
+
+</html>
+
+

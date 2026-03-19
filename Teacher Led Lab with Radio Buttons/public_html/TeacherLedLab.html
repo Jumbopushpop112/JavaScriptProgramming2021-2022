@@ -1,0 +1,89 @@
+<html>
+<head>
+    <title>Ettore's Configuratore</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body> 
+    <h1>Ettore's Configuratore</h1> 
+    <form id="orderForm" name="orderForm"><!--action='index.html' method="get"-->
+        <fieldset>
+            <legend>Truck Cab Type</legend>
+            <input type="radio" name="cabType" id="standardCab" value="standard">
+            <label for="standardCab">Standard</label>
+            <input type="radio" name="cabType" id="kingCab" value="king">
+            <label for="kingCab">King</label>
+            <input type="radio" name="cabType" id="crewCab" value="crew">
+            <label for="crewCab">Crew Cab</label>
+        </fieldset>
+
+        <fieldset>
+            <legend>Exterior Options</legend>
+            <select name="exterior" multiple>
+                <option value="ex1">Body Kit</option>
+                <option value="ex2">Fancy Lights</option>
+                <option value="ex3">Fancy Wheels</option>
+            </select>
+        </fieldset>
+
+        <fieldset>
+            <legend>Interior Options</legend>
+            <!-- Note: no 'id' attribute on the first checkbox means the label is inert -->
+            <input type="checkbox" name="in1"><label for="in1">Heated Seats</label><br />
+            <input type="checkbox" id="in2" name="in2"><label for="in2">Nav System</label><br />
+            <input type="checkbox" id="in3" name="in3"><label for="in3">Power Plugs</label><br />
+            <input type="checkbox" id="in4" name="in4"><label for="in4">Power Seats</label><br />
+        </fieldset>
+
+        <label for="color">Color</label>
+        <select name="color" id="color">
+            <optgroup label="Primary Colors">
+                <option>Red</option>
+                <option>Blue</option>
+                <option>Yellow</option>
+            </optgroup>
+            <option>Orange</option>
+            <option>Green</option>
+            <option>Purple</option>
+        </select>
+        <br />
+        <br />
+
+        <!-- Note: you can use built-in range validation for number -->
+        <label for="quantity">Quantity:</label>
+        <input type="number" name="quantity" required min="1" max="10">
+        <br />
+        <br />
+
+        <!-- Note: see the page script for the text validation for this -->
+        <label for="owner">Owner name:</label>
+        <input type="text" name="owner">
+        <br />
+        <br />
+
+        <!-- Note: you can use built-in pattern validation for text -->
+        <label for="deliverTo">Deliver to:</label>
+        <input type="text" name="deliverTo" pattern="fl(orida)?">
+
+        <!-- Note: no text label needed -->
+        <input type="submit">
+    </form>
+    <script>
+        // the form's event listener must be added when the page is loaded. If you try to
+        // add outside of this, it will run before the form is added to the page, and the
+        // getElementById call will return null
+        window.addEventListener('load', function() {
+            document.getElementById("orderForm").addEventListener('submit', validateForm);
+        }); 
+
+        function validateForm(myEvent) {
+            const owner = this['owner'].value;
+            if (owner.length === 4) {
+                alert("We don't sell to your kind!");
+                myEvent.preventDefault();
+            }    
+        }
+ </script>
+</body>
+</html>					

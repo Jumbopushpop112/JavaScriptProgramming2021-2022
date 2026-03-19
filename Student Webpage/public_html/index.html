@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Student Webpage</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            /*The following style code came from:
+            https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_accordion_symbol*/
+            .accordion {
+                background-color: #eee;
+                color: #444;
+                cursor: pointer;
+                padding: 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 15px;
+                transition: 0.4s;
+            }
+
+            .active, .accordion:hover {
+                background-color: #ccc;
+            }
+
+            .accordion:after {
+                content: '\002B';
+                color: #777;
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+
+            .active:after {
+                content: "\2212";
+            }
+
+            .panel {
+                padding: 0 18px;
+                background-color: white;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+            }
+            #categories{
+                float:left;
+            }
+            #classes{
+                display: grid;
+                grid-template-columns:33% 33% 33%;
+                grid-column-gap:5px;
+                grid-row-gap:5px;  
+                justify-content: end; /*like float right*/
+                padding-left: 20px;
+            }
+            h1{
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body onload="init()">
+        <h2>Which class would you like to see?</h2>
+        <p id="images"></p>
+        
+        <section id = "categories">
+            <button class="accordion">Classes found here</button>
+            <div id="class" class="panel"> 
+
+            </div> 
+
+            
+        </section>
+        
+        <section id="classes"></section>
+
+        <script>  
+            var acc = document.getElementsByClassName("accordion");
+            var i;
+
+            for (i = 0; i < acc.length; i++) {
+              acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling; 
+                if (panel.style.maxHeight) {
+                  panel.style.maxHeight = null;
+                } else { 
+                  panel.style.maxHeight = panel.scrollHeight + "px";
+                }  
+              });
+            } 
+            function init(){               
+                renderClassOptions();
+                checkItemsFromStorage();
+                renderIFrames();
+                filter(); 
+            }
+            function checkItemsFromStorage(){
+                var arrCheckedClasses = JSON.parse(localStorage.getItem("Classes"));
+                var checkBoxes = document.getElementById("class").children;
+                if(arrCheckedClasses !== null){
+                   for(var i = 0; i<checkBoxes.length; i++){
+                      if(arrCheckedClasses.includes(checkBoxes[i].children[0].value)){
+                        checkBoxes[i].children[0].checked = true;
+                      }                   
+                   }               
+                }              
+            }
+            function renderClassOptions(){
+                arrClasses = ["Calculus", "Cooking", "PreCalc", "Physics", "ComputerScience", "EarthScience", "EnglishLiteratureHonors", "DigitalMedia", "AlgebraHonors", "Psychology", "Humanities", "GeometryHonors", "APCSP", "Biology", "Chemistry", "WorldHistory", "USHistory", "MarineScience", "DentalAide", "MotionGraphics"];
+                for(var i = 0; i<arrClasses.length; i++){
+                    var spanHost = document.createElement("span");
+                    spanHost.innerHTML = arrClasses[i];
+                    var filterInput = document.createElement("INPUT"); 
+                     filterInput.type = "checkbox";
+                     filterInput.value = arrClasses[i]; 
+                     filterInput.addEventListener("click", addToStorage);
+                     //create break
+                     var lineBreak = document.createElement("br");
+                     //append to dom 
+                     spanHost.appendChild(filterInput);
+                     spanHost.appendChild(lineBreak);
+                     document.getElementById("class").appendChild(spanHost);
+                }
+                
+            }
+            function renderIFrames(){
+                arrIFrameSources = ["Calculus", "Cooking", "PreCalc", "Physics", "ComputerScience", "EarthScience", "EnglishLiteratureHonors", "DigitalMedia", "AlgebraHonors", "Psychology", "Humanities", "GeometryHonors", "APCSP", "Biology", "Chemistry", "WorldHistory", "USHistory", "MarineScience", "DentalAide", "MotionGraphics"];
+                for(var i =0; i<arrIFrameSources.length; i++){
+                    var iFramePage = document.createElement("iframe"); 
+                    iFramePage.src = "TeacherWebpages/" + arrIFrameSources[i] + ".html";
+                    iFramePage.id = arrIFrameSources[i];
+                    iFramePage.height = "300";
+                    iFramePage.width = "300";
+                    iFramePage.style.display = "none";
+                    document.getElementById("classes").appendChild(iFramePage);
+                }
+            } 
+            function addToStorage(){
+                var arrCheckedBoxes = [];
+                var ele = document.getElementById("class").querySelectorAll("input");
+                for(let i = 0; i < ele.length; i++) {
+                    if(ele[i].checked){
+                        arrCheckedBoxes.push(ele[i].value);
+                    }
+                }
+                localStorage.setItem("Classes", JSON.stringify(arrCheckedBoxes));
+                filter();
+            }
+            function filter(){
+                var checkedClasses = getFilterState("class");
+                var iFrameSection = document.getElementById("classes");
+                var iFrameImages = iFrameSection.children;
+                 for(var i = 0; i<iFrameImages.length; i++){              
+                  //check to see if the value of the input is found in the 2nd child of the iFrameImages
+                  if(checkedClasses.length > 0 && checkedClasses.includes(iFrameImages[i].id)){
+                       iFrameImages[i].style.display = "block";  
+                  }
+                  else{ 
+                      iFrameImages[i].style.display = "none";
+                  }
+                }
+            }
+           function getFilterState(id){
+              var arrCheckedInputs = []; 
+              var Inputs = document.getElementById(id).querySelectorAll("input");
+              //loop through all the inputs
+              //if they have been checked, push them into the array
+              for(var i = 0; i<Inputs.length; i++){
+                  if(Inputs[i].checked){
+                      arrCheckedInputs.push(Inputs[i].value);
+                  }   
+              }
+              return arrCheckedInputs;
+           } 
+        </script>
+    </body>
+</html>

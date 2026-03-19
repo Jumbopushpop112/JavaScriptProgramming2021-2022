@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Cookie Practice Webpage</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body onload="init()">
+        <h2>Browser Coookie Site (No, they aren't sweet)</h2>
+        <label>Enter Text Here</label>
+        <input type="text" id="textInput"><br><br>
+        <button id="cookieButton">Store Cookie</button><br><br>    
+        <button id="resetButton">Delete Cookie</button>
+        <script>
+            function init(){
+                document.getElementById("cookieButton").addEventListener("click", storeCookie);
+                document.getElementById("resetButton").addEventListener("click", clearText);
+            }
+            function storeCookie(){
+                var userText = document.getElementById("textInput").value;
+                document.cookie = userText;
+                
+            }
+            function clearText(){ 
+                document.cookie = ""; 
+                document.getElementById("textInput").value = "";
+            }
+        </script>
+    </body>
+</html>

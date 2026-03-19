@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body onload="main()">
+        <div>TODO write content</div>
+        <script>
+            function isStringBlank(str){
+               if(str.length === 0){
+                   return true;
+               } 
+               else{
+                   return false;   
+               } 
+            }
+            function extractString(str, numChars){
+                /*  
+                 * strVar.substring(startingIndex) - returns char at startingIndex and every char to the end of the string
+                 * strVar.substring(startingIndex, stoppingIndex) returns the char at startingIndex and all chars up (but not included) 
+                 */
+                 var result = "";
+                 if(numChars > str.length){
+                     result = "Param str does not have " + numChars + " chars";
+                 }
+                 else{
+                     result = str.substring(0, numChars);   
+                 }   
+                 return result;
+            }
+            function abbreviateName(name){
+                var result = ""; 
+                //Jeffrey Dohmen  
+                //user indexOf(targetChar) to find the position of targetChar
+                //returns -1 if not found
+                //look space chat first
+                if(name.indexOf("")=== -1){
+                    //no last name
+                    result = "No last name given";
+                }
+                else{
+                    //get index of the space char
+                    var posSpace = name.indexOf(" "); 
+                    result = name.substring(0, posSpace+2); 
+                }     
+                return result; 
+            } 
+            function main(){
+                console.log(isStringBlank("blehblehbleh")); 
+                console.log(extractString("1234",5)); 
+                console.log(abbreviateName("Jeffrey Dohmen")); 
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Chapter 11: Example 4</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <!--readonly prevents context from being changed -->
+        <form action ="" name="form1">
+            Please enter the following details:
+            <p>
+                Name:
+                <input type= "text" name="txtName">
+            </p>
+            <p>
+                Age:
+                <input type="text" name="txtAge" size="3" maxlength="3">
+            </p>
+                <input type="button" value="Check details" name="btnCheckForm">
+        </form>
+        
+        <script>
+            //get the item by the "name" attribute 
+            var myForm = document.form1;
+            myForm.txtName.addEventListener("change", txtNameChange);
+            myForm.txtAge.addEventListener("blur", txtAgeBlur);
+            myForm.btnCheckForm.addEventListener("click", btnCheckFormClick);
+            function btnCheckFormClick(e){       
+                //get the items in the dom by name
+                var txtName = myForm.txtName;
+                var txtAge = myForm.txtAge;
+                if(txtAge.value === "" || txtName.value === ""){
+                    alert("Oh no. Make sure you complete the entire form!");
+                    
+                    if(txtName.value === ""){
+                        txtName.focus();
+                    } else{
+                        txtAge.focus();
+                    } 
+                } else{
+                    alert("Thanks for completing the form " + txtName.value);
+                }
+            }
+            
+            function txtAgeBlur(e){   
+                var target = e.target;
+                
+                if(isNaN(target.value)){
+                    alert("Please enter a valid age");
+                    target.focus();
+                    target.select();
+                }
+            }
+            
+            function txtNameChange(e){
+                alert("Hi " + e.target.value);
+            }
+        </script>    
+    </body> 
+</html>

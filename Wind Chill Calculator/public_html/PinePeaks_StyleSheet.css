@@ -1,0 +1,28 @@
+
+
+body{
+	background-color:yellow; /*for debugging purposes*/
+}
+header{
+	text-align:center;
+}   
+#formContainer{
+	
+	display:grid;	
+	grid-template-columns: 200px 100px;
+	grid-row-gap:10px;
+	justify-content:center;
+	
+}
+.buttons{
+	width:100px;
+	justify-self:center;
+}
+img{
+	/*Centering the image*/
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 40%;
+}
+

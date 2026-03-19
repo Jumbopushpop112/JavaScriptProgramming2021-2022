@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body onload="main()">  
+        <script>
+            //main function that asks the user for a word and declares variables
+            function main(){
+                var originalString = "now is the winter of our discontent";
+                var word = prompt("Enter the word and I will see if it is in the string");
+                var replacementWord = "FOUND";
+                replaceWord(originalString, word, replacementWord);
+            } 
+            //function that replaces the word using the sub string method
+            function replaceWord(originalString, word, replacementWord){
+                if(originalString.indexOf(word) !== -1){ //if the word is found in the string
+                    var index = originalString.indexOf(word); 
+                    var totalLength = originalString.length;
+                    var wordLength = word.length;   
+                    var a = originalString.substring(0,index); 
+                    var b = originalString.substring(index+wordLength);  
+                    console.log(a + replacementWord + b);  
+                }else{          
+                    console.log(originalString);
+                }   
+            
+            }
+        </script>
+    </body>
+</html>

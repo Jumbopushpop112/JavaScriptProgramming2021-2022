@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Dictionary Teacher Led Lab</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <script>
+            function populateDict(theDict) 
+            {
+                for(let i=0; i<10; i++){
+                    
+                const curRandNum = parseInt(Math.random()*5+1); //random number 1 to 5
+                /*Check to see if theDict has a key of 1,2,3,4 or 5. 
+                If NOT then create a key:value pair setting its value to 1*/
+                if(!theDict[curRandNum]){
+                   theDict[curRandNum]=1;
+                }
+                else//the key of 1,2,3,4 or 5 (contents of curRandNum) exist in theDict so add one to its value 
+                {
+                   theDict[curRandNum] += 1;
+                }
+               }
+            }
+            myDictionary = {};
+            populateDict(myDictionary);
+            console.log(myDictionary);
+
+
+        </script>
+    </body>
+</html>

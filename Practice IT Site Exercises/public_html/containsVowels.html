@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <script>
+            var string = "dog";
+            findVowels(string);
+            function findVowels(string){
+                var numVowels = 0;
+                var arrVowels = ["a", "e", "i", "o", "u"];  
+                for(var i = 0; i<string.length; i++){
+                    var letter = string[i];
+                    if(arrVowels.includes(letter)){
+                        numVowels++;
+                    }
+                }
+                console.log("The word " + string + " contains " + numVowels + " vowels"); 
+            }
+        </script>
+    </body>
+</html>

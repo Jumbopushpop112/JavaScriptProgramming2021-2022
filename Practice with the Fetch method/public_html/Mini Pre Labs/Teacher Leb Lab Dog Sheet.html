@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+         <h1>Dohmen's Kennel Club</h1>
+         <section id="filterContainer"></section>
+         <section id="dogContainer"></section>
+         <script>
+            window.addEventListener("load", fetchDogs);
+
+            function fetchDogs() {
+                fetch("Dogs.csv") 
+                    .then((response) => {
+                    if (!response.ok) {
+                        throw response.status;
+                    }
+
+                    return response.text();
+                })
+                .then((body) => body.split("\r\n"))
+                .then((lines) => lines.shift().split(","))
+                .then((lines) => {
+                    const headers = lines.shift().split(",");
+                    const dogList = [];
+                    
+                    for(const line of lines){
+                        const parts = line.split(",");
+                        console.log(line);
+                        const dog = {};
+                        for(let i = 0; i<parts.length; i++){
+                            const colum_name = headers[i];
+                            dog[colum_name] = parts[i];  
+                            console.log(`column${i} is ${colum_name}, for this dog it's ${parts[i]}`); 
+                        }
+                        dogList.push(dog);
+                    }
+                    return dogList;
+                })
+                .then(console.log)
+                .catch((err) => {    
+                    console.error("Didn't get dogs: " + err);
+                });
+        }
+    </script>
+    </body>
+</html>

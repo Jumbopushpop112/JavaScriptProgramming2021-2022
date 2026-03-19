@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .welcome {
+                color:green;
+                font-size:36px;
+                font-family:cursive;
+                text-align:center;
+                padding:20px;
+             }
+        </style>
+    </head>
+    <body>
+        <div class="welcome">Welcome To JDoodle.com</div>
+        <p id="mainContent"></p>  
+        <script>
+            //curNum = parseInt(Math.random()*(26)+25);
+            //var min = 0;
+            //var max = 4; 
+            var colCount = 1; 
+            var curRandNum = 0.0;
+            var strMainContent = "";
+            for(var i=0; i<100; i++)
+            {
+                //Note the differnce when "+ 1" is added/left off
+                //Know this java format: (int)(Math.random()*(max-min+1[or not])+min)
+                //curRandNum = parseInt(Math.random() * 4);
+                curRandNum = parseInt((Math.random()*(26)+25)); //JS format  
+                if (colCount % 10 === 0) 
+                    strMainContent += curRandNum + "<br />";
+                else
+                    strMainContent += curRandNum + "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp";
+                colCount++; 
+            }
+            document.getElementById("mainContent").innerHTML = strMainContent;
+        </script>
+    </body>
+</html>

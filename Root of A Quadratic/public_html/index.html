@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body onload="init()">
+        <script> 
+            //init function
+            function init(){
+                calcPositiveRoots();  
+            }
+            //calc posititve root function 
+            function calcPositiveRoots(a, b, c, negB){
+                a =  parseInt(Math.random() * (4) + 1); //1-4    
+                c = parseInt(Math.random() * (6) + 5); //5-10
+                b = parseInt(Math.random() *(5) + 11); //11-15
+                var discriminant = ((b**2) - 4*(a)*(c));
+                negB = b * -1;
+                var quadraticFormula = (negB + Math.sqrt(b**2 - (4*a*c)) / 2*a); 
+                console.log("A is: " + a); 
+                console.log("B is: " + b);
+                console.log("C is: " + c); 
+                console.log("Discriminant is: " + discriminant); 
+                if(discriminant === 0){
+                    console.log("One real root");
+                    console.log("X = " + negB/2*a);    
+                }
+                else if(discriminant > 0){
+                    console.log("Two real roots"); 
+                    console.log("X = " + quadraticFormula); 
+                } 
+                else{  
+                    console.log("Two complex roots");    
+                    console.log("X = -1.0");  
+                } 
+                
+            }
+        </script>
+    </body>
+</html>

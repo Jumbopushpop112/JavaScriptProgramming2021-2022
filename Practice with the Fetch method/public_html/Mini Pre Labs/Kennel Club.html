@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Kennel Club</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            table, th, td{
+                border:1px solid black;
+                text-align: center;
+                border-collapse: collapse; 
+            }
+        </style>
+    </head>
+    
+    <body>
+         <h1>Dohmen's Kennel Club</h1>
+        <table id="myTable">
+            <tr>
+                <th>Breed</th> 
+                <th>Name</th>
+                <th>Number of Fleas</th>
+                <th>Image File</th>
+            </tr>
+        </table> 
+        <script>
+             fetch("Dogs.csv") 
+                    .then((response) => {
+                    if (!response.ok) {
+                        throw response.status;
+                    }
+
+                    return response.text();
+                })
+                .then((body) => body.split("\r\n"))
+                .then((lines) => {
+                    const headers = lines.shift().split(",");
+                    const dogList = [];
+                    var table = document.getElementById("myTable");
+                    for(const line of lines){
+                        const parts = line.split(",");   
+                        const dog = {};
+                        var row = table.insertRow();
+                        for(let i = 0; i<parts.length; i++){
+                            const colum_name = headers[i];
+                            dog[colum_name] = parts[i];    
+                            console.log(headers[i] + ":" + parts[i]);
+                            row.insertCell().innerText = parts[i];
+                        }  
+                        console.log(dog);
+                        dogList.push(dog);  
+                    }
+                    return dogList;
+                })
+                .then(console.log)
+                .catch((err) => {  
+                    console.error("Didn't get dogs: " + err);
+                });
+        </script>
+    </body>
+</html>
